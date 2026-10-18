@@ -6,7 +6,8 @@ Read-only deep connector for the Lightfield CRM REST API (public beta).
 
 - API key created by a workspace admin, sent as `Authorization: Bearer sk_lf_...`
   ([API keys](https://docs.lightfield.app/using-the-api/api-keys)). The key needs the
-  `accounts:read`, `contacts:read`, `opportunities:read` and `members:read` scopes.
+  `accounts:read`, `contacts:read`, `opportunities:read`, `members:read`, `notes:read` and
+  `tasks:read` scopes.
 - Base URL `https://api.lightfield.app`; every path is under `/v1`.
 - Every request also carries `Lightfield-Version: 2026-03-01`, which the spec marks as required.
   The connector sets it on reads and definitions calls. The catalog entry has proxy enabled, but
@@ -21,6 +22,8 @@ Read-only deep connector for the Lightfield CRM REST API (public beta).
 | `contacts`      | `GET /v1/contacts`      | catalog + `GET /v1/contacts/definitions` |
 | `opportunities` | `GET /v1/opportunities` | catalog + `GET /v1/opportunities/definitions` |
 | `members`       | `GET /v1/members`       | catalog only (no definitions endpoint)   |
+| `notes`         | `GET /v1/notes`         | catalog + `GET /v1/notes/definitions`    |
+| `tasks`         | `GET /v1/tasks`         | catalog + `GET /v1/tasks/definitions`    |
 
 `members` are the workspace users the customer asked for as "users".
 The catalog (`internal/metadata/objectsMetadata.json`) is generated from the OpenAPI spec by
@@ -46,7 +49,7 @@ object this connector reads; `user` is not) and HAS_MANY ones as `other`, being 
 
 ## Incremental read
 
-Accounts, contacts and opportunities filter on the server: `Since` is sent as
+Accounts, contacts, opportunities, notes and tasks filter on the server: `Since` is sent as
 `$updatedAt[greaterThan]` and `Until` as `$updatedAt[lessThanOrEqual]` (RFC 3339 UTC with
 milliseconds), so Since is exclusive and Until inclusive as in ReadParams; both carry over to every
 page ([List methods](https://docs.lightfield.app/using-the-api/list-endpoints#filtering)).

@@ -115,6 +115,8 @@ var objectNameByType = map[string]string{ // nolint:gochecknoglobals
 	"account":     objectNameAccounts,
 	"contact":     objectNameContacts,
 	"opportunity": objectNameOpportunities,
+	"note":        objectNameNotes,
+	"task":        objectNameTasks,
 }
 
 func (d definitionsResponse) addTo(selection objectcatalog.Selection, objectName string) {
