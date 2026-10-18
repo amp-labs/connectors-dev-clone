@@ -212,12 +212,12 @@ func TestRead(t *testing.T) { //nolint:funlen,maintidx
 			Expected:   &common.ReadResult{Rows: 1, NextPage: "", Done: true},
 		},
 		{
-			Name: "Incremental read of tasks sends updatedAt filters and links to the next offset",
+			Name: "Incremental read of tasks sends no filters, keeps records in the window and pages on",
 			Input: common.ReadParams{
 				ObjectName: "tasks",
 				Fields:     connectors.Fields("$title", "$status", "$dueAt", "$account", "$assignedTo"),
 				PageSize:   2,
-				Since:      time.Date(2026, 9, 1, 0, 0, 0, 0, time.UTC),
+				Since:      time.Date(2026, 9, 15, 0, 0, 0, 0, time.UTC),
 				Until:      time.Date(2026, 9, 21, 0, 0, 0, 0, time.UTC),
 			},
 			Server: mockserver.Conditional{
@@ -227,15 +227,15 @@ func TestRead(t *testing.T) { //nolint:funlen,maintidx
 					mockcond.Path("/v1/tasks"),
 					mockcond.QueryParam("limit", "2"),
 					mockcond.QueryParam("offset", "0"),
-					mockcond.QueryParam("$updatedAt[greaterThan]", "2026-09-01T00:00:00.000Z"),
-					mockcond.QueryParam("$updatedAt[lessThanOrEqual]", "2026-09-21T00:00:00.000Z"),
+					mockcond.QueryParamsMissing("$updatedAt[greaterThan]", "$updatedAt[lessThanOrEqual]"),
 					mockcond.Header(versionHeader),
 				},
 				Then: mockserver.Response(http.StatusOK, responseTasksFirstPage),
 			}.Server(),
 			Comparator: testconn.ComparatorSubsetRead,
 			Expected: &common.ReadResult{
-				Rows: 2,
+				// tsk_1 was never updated and was created on 2026-09-10, before Since.
+				Rows: 1,
 				Data: []common.ReadResultRow{{
 					Id: "tsk_2",
 					Fields: map[string]any{
@@ -246,24 +246,13 @@ func TestRead(t *testing.T) { //nolint:funlen,maintidx
 						"$assignedto": []any{"usr_1"},
 					},
 					Raw: map[string]any{"id": "tsk_2"},
-				}, {
-					Id: "tsk_1",
-					Fields: map[string]any{
-						"$title":   "Intro call",
-						"$status":  "TODO",
-						"$dueat":   nil,
-						"$account": []any{},
-					},
-					Raw: map[string]any{"id": "tsk_1"},
 				}},
-				NextPage: testconn.URLTestServer + "/v1/tasks?" +
-					"%24updatedAt%5BgreaterThan%5D=2026-09-01T00%3A00%3A00.000Z&" +
-					"%24updatedAt%5BlessThanOrEqual%5D=2026-09-21T00%3A00%3A00.000Z&limit=2&offset=2",
-				Done: false,
+				NextPage: testconn.URLTestServer + "/v1/tasks?limit=2&offset=2",
+				Done:     false,
 			},
 		},
 		{
-			Name: "Incremental read of notes sends the Since filter",
+			Name: "Incremental read of notes sends no filters and keeps records updated after Since",
 			Input: common.ReadParams{
 				ObjectName: "notes",
 				Fields:     connectors.Fields("$title", "$content", "$account"),
@@ -275,8 +264,7 @@ func TestRead(t *testing.T) { //nolint:funlen,maintidx
 					mockcond.Path("/v1/notes"),
 					mockcond.QueryParam("limit", "25"),
 					mockcond.QueryParam("offset", "0"),
-					mockcond.QueryParam("$updatedAt[greaterThan]", "2026-10-12T22:07:48.174Z"),
-					mockcond.QueryParamsMissing("$updatedAt[lessThanOrEqual]"),
+					mockcond.QueryParamsMissing("$updatedAt[greaterThan]", "$updatedAt[lessThanOrEqual]"),
 					mockcond.Header(versionHeader),
 				},
 				Then: mockserver.Response(http.StatusOK, responseNotesLastPage),

@@ -1,58 +1,48 @@
 {
-  "objectType": "task",
+  "objectType": "$task",
   "fieldDefinitions": {
-    "$title": {
-      "id": "ad_title",
-      "slug": "title",
-      "label": "Title",
-      "description": null,
-      "valueType": "TEXT",
-      "system": true,
-      "readOnly": false,
-      "typeConfiguration": {}
+    "$dueAt": {"label": "Due at", "valueType": "DATETIME", "description": null, "typeConfiguration": {}},
+    "$title": {"label": "Title", "valueType": "TEXT", "description": null, "typeConfiguration": {}},
+    "$labels": {
+      "id": "ad_11dbc0d1-7d22-407c-8082-37f8668cbf47",
+      "label": "Labels",
+      "valueType": "MULTI_SELECT",
+      "description": "Labels for organizing tasks",
+      "typeConfiguration": {"options": []}
     },
     "$status": {
-      "id": "ad_status",
-      "slug": "status",
       "label": "Status",
-      "description": null,
       "valueType": "SINGLE_SELECT",
-      "system": true,
+      "description": null,
       "typeConfiguration": {
         "options": [
-          {"id": "TODO", "label": "To do", "description": null},
-          {"id": "COMPLETE", "label": "Complete", "description": null}
+          {"id": "TODO", "label": "TODO"},
+          {"id": "IN_PROGRESS", "label": "IN_PROGRESS"},
+          {"id": "COMPLETE", "label": "COMPLETE"},
+          {"id": "CANCELLED", "label": "CANCELLED"}
         ]
       }
     },
-    "$dueAt": {
-      "id": "ad_due_at",
-      "slug": "dueAt",
-      "label": "Due At",
-      "description": null,
+    "$completedAt": {
+      "label": "Completed at",
+      "readOnly": true,
       "valueType": "DATETIME",
-      "system": true,
+      "description": null,
       "typeConfiguration": {}
     }
   },
   "relationshipDefinitions": {
     "$account": {
-      "id": "rd_task_account",
-      "slug": "task-account",
-      "label": "Account",
-      "description": null,
-      "cardinality": "HAS_ONE",
-      "objectType": "account",
-      "system": true
-    },
-    "$note": {
-      "id": "rd_task_note",
-      "slug": "task-note",
-      "label": "Notes",
-      "description": null,
+      "label": "Accounts",
+      "objectType": "$account",
       "cardinality": "HAS_MANY",
-      "objectType": "note",
-      "system": true
+      "description": "Accounts associated with this task"
+    },
+    "$assignedTo": {
+      "label": "Assigned to",
+      "objectType": "$member",
+      "cardinality": "HAS_ONE",
+      "description": "The member this task is assigned to"
     }
   }
 }

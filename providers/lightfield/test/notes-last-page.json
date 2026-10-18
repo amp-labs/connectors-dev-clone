@@ -11,8 +11,8 @@
         "$content": {"value": "Budget approved for Q4.", "valueType": "MARKDOWN"}
       },
       "relationships": {
-        "$account": {"cardinality": "HAS_ONE", "objectType": "account", "values": ["acc_1"]},
-        "$opportunity": {"cardinality": "HAS_ONE", "objectType": "opportunity", "values": []}
+        "$account": {"cardinality": "HAS_MANY", "objectType": "$account", "values": ["acc_1"]},
+        "$opportunity": {"cardinality": "HAS_MANY", "objectType": "$opportunity", "values": []}
       }
     }
   ],

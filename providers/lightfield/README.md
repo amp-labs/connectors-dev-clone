@@ -49,13 +49,15 @@ object this connector reads; `user` is not) and HAS_MANY ones as `other`, being 
 
 ## Incremental read
 
-Accounts, contacts, opportunities, notes and tasks filter on the server: `Since` is sent as
+Accounts, contacts and opportunities filter on the server: `Since` is sent as
 `$updatedAt[greaterThan]` and `Until` as `$updatedAt[lessThanOrEqual]` (RFC 3339 UTC with
 milliseconds), so Since is exclusive and Until inclusive as in ReadParams; both carry over to every
 page ([List methods](https://docs.lightfield.app/using-the-api/list-endpoints#filtering)).
 The `$` is part of the key; `updatedAt[greaterThan]` returns 400 `unknown_field`.
 `/v1/members` rejects filters (400 `unrecognized_keys`), so members are read in full and the
 connector keeps those whose `updatedAt` (or `createdAt` when null) is within `(Since, Until]`.
+Notes and tasks are filtered the same way: unlike the other list references, theirs offer no
+`$field` filters, and their `$updatedAt` support has not been confirmed live.
 List results come from a search index that may lag recent changes, so a read can miss them.
 
 ## Rate limits
