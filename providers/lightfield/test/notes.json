@@ -1,0 +1,20 @@
+{
+  "data": [
+    {
+      "id": "not_1",
+      "createdAt": "2026-09-14T09:00:00.000Z",
+      "updatedAt": "2026-09-15T11:20:00.000Z",
+      "httpLink": "https://crm.lightfield.app/crm/notes/not_1",
+      "externalId": null,
+      "fields": {
+        "$title": {"value": "Kickoff call", "valueType": "TEXT"},
+        "$content": {"value": "Discussed rollout timeline.", "valueType": "MARKDOWN"}
+      },
+      "relationships": {
+        "$account": {"cardinality": "HAS_ONE", "objectType": "account", "values": ["acc_1"]}
+      }
+    }
+  ],
+  "object": "list",
+  "totalCount": 1
+}

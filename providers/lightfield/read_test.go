@@ -21,6 +21,8 @@ func TestRead(t *testing.T) { //nolint:funlen,maintidx
 	responseAccountsLastPage := testutils.DataFromFile(t, "accounts-last-page.json")
 	responseMembers := testutils.DataFromFile(t, "members.json")
 	responseAccountsKeyClash := testutils.DataFromFile(t, "accounts-key-clash.json")
+	responseNotes := testutils.DataFromFile(t, "notes.json")
+	responseTasks := testutils.DataFromFile(t, "tasks.json")
 
 	versionHeader := http.Header{"Lightfield-Version": []string{"2026-03-01"}}
 
@@ -39,7 +41,7 @@ func TestRead(t *testing.T) { //nolint:funlen,maintidx
 		},
 		{
 			Name:         "Unknown object is not supported",
-			Input:        common.ReadParams{ObjectName: "notes", Fields: connectors.Fields("id")},
+			Input:        common.ReadParams{ObjectName: "meetings", Fields: connectors.Fields("id")},
 			Server:       mockserver.Dummy(),
 			ExpectedErrs: []error{common.ErrOperationNotSupportedForObject},
 		},
@@ -208,6 +210,77 @@ func TestRead(t *testing.T) { //nolint:funlen,maintidx
 			}.Server(),
 			Comparator: testconn.ComparatorPagination,
 			Expected:   &common.ReadResult{Rows: 1, NextPage: "", Done: true},
+		},
+		{
+			Name: "Incremental read of notes sends updatedAt filters",
+			Input: common.ReadParams{
+				ObjectName: "notes",
+				Fields:     connectors.Fields("$title", "$content", "$account"),
+				Since:      time.Date(2026, 9, 1, 0, 0, 0, 0, time.UTC),
+				Until:      time.Date(2026, 9, 30, 0, 0, 0, 0, time.UTC),
+			},
+			Server: mockserver.Conditional{
+				Setup: mockserver.ContentJSON(),
+				If: mockcond.And{
+					mockcond.MethodGET(),
+					mockcond.Path("/v1/notes"),
+					mockcond.QueryParam("limit", "25"),
+					mockcond.QueryParam("offset", "0"),
+					mockcond.QueryParam("$updatedAt[greaterThan]", "2026-09-01T00:00:00.000Z"),
+					mockcond.QueryParam("$updatedAt[lessThanOrEqual]", "2026-09-30T00:00:00.000Z"),
+					mockcond.Header(versionHeader),
+				},
+				Then: mockserver.Response(http.StatusOK, responseNotes),
+			}.Server(),
+			Comparator: testconn.ComparatorSubsetRead,
+			Expected: &common.ReadResult{
+				Rows: 1,
+				Data: []common.ReadResultRow{{
+					Id: "not_1",
+					Fields: map[string]any{
+						"$title":   "Kickoff call",
+						"$content": "Discussed rollout timeline.",
+						"$account": []any{"acc_1"},
+					},
+					Raw: map[string]any{"id": "not_1"},
+				}},
+				NextPage: "",
+				Done:     true,
+			},
+		},
+		{
+			Name: "Tasks are flattened and Since is sent as an updatedAt filter",
+			Input: common.ReadParams{
+				ObjectName: "tasks",
+				Fields:     connectors.Fields("$title", "$status", "$dueAt", "$assignedTo"),
+				Since:      time.Date(2026, 9, 1, 0, 0, 0, 0, time.UTC),
+			},
+			Server: mockserver.Conditional{
+				Setup: mockserver.ContentJSON(),
+				If: mockcond.And{
+					mockcond.Path("/v1/tasks"),
+					mockcond.QueryParam("$updatedAt[greaterThan]", "2026-09-01T00:00:00.000Z"),
+					mockcond.QueryParamsMissing("$updatedAt[lessThanOrEqual]"),
+					mockcond.Header(versionHeader),
+				},
+				Then: mockserver.Response(http.StatusOK, responseTasks),
+			}.Server(),
+			Comparator: testconn.ComparatorSubsetRead,
+			Expected: &common.ReadResult{
+				Rows: 1,
+				Data: []common.ReadResultRow{{
+					Id: "tsk_1",
+					Fields: map[string]any{
+						"$title":      "Send renewal quote",
+						"$status":     "TODO",
+						"$dueat":      "2026-09-30T17:00:00.000Z",
+						"$assignedto": []any{"usr_1"},
+					},
+					Raw: map[string]any{"id": "tsk_1"},
+				}},
+				NextPage: "",
+				Done:     true,
+			},
 		},
 		{
 			Name:  "Record properties win over custom fields of the same name, and fields over relationships",

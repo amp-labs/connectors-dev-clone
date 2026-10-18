@@ -1,0 +1,21 @@
+{
+  "objectType": "task",
+  "fieldDefinitions": {
+    "$title": {"label": "Title", "valueType": "TEXT", "typeConfiguration": {}, "readOnly": false},
+    "$status": {
+      "label": "Status",
+      "valueType": "SINGLE_SELECT",
+      "typeConfiguration": {
+        "options": [
+          {"id": "TODO", "label": "To do"},
+          {"id": "COMPLETE", "label": "Complete"}
+        ]
+      }
+    },
+    "$dueAt": {"label": "Due At", "valueType": "DATETIME", "typeConfiguration": {}}
+  },
+  "relationshipDefinitions": {
+    "$assignedTo": {"label": "Assigned To", "cardinality": "HAS_ONE", "objectType": "user"},
+    "$account": {"label": "Account", "cardinality": "HAS_ONE", "objectType": "account"}
+  }
+}
