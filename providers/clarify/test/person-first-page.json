@@ -1,0 +1,41 @@
+{
+  "data": [
+    {
+      "id": "0009db0a-a4ba-48ed-a696-49b789131970",
+      "type": "person",
+      "attributes": {
+        "_id": "0009db0a-a4ba-48ed-a696-49b789131970",
+        "company_id": "0e69c577-f8c4-45c6-8570-9a122e0fd08a",
+        "name": {"full_name": "Jane Doe", "last_name": "Doe", "first_name": "Jane"},
+        "email_addresses": {"items": ["jane@acme.com"]},
+        "job_title": "VP of Marketing",
+        "_created_by": "user_01JZKRMYJMFWPFW74MD3G31998",
+        "_created_at": "2025-07-15T16:07:03.139Z",
+        "_updated_at": "2025-08-27T18:36:13.720Z"
+      },
+      "relationships": {}
+    },
+    {
+      "id": "5f8b7d2e-9c4a-4e1b-8f3d-2a6c9e0b4d71",
+      "type": "person",
+      "attributes": {
+        "_id": "5f8b7d2e-9c4a-4e1b-8f3d-2a6c9e0b4d71",
+        "company_id": null,
+        "name": {"full_name": "John Roe", "last_name": "Roe", "first_name": "John"},
+        "email_addresses": {"items": []},
+        "job_title": null,
+        "type": "Partner",
+        "_created_by": "system",
+        "_created_at": "2026-01-15T09:30:00.000Z",
+        "_updated_at": "2026-02-01T17:45:00.000Z"
+      },
+      "relationships": {}
+    }
+  ],
+  "included": [],
+  "meta": {"total_records": 3, "total_pages": 2, "offset": 0, "limit": 2},
+  "links": {
+    "next": "http://api.clarify.ai/v1/workspaces/acme/objects/person/resources?page%5Boffset%5D=2&page%5Blimit%5D=2&filter%5B_updated_at%5D%5BIs%20on%20or%20after%5D=2024-12-31",
+    "prev": null
+  }
+}
