@@ -1,0 +1,21 @@
+{
+  "data": [
+    {
+      "id": "not_1",
+      "createdAt": "2026-10-01T08:00:00.000Z",
+      "updatedAt": "2026-10-13T09:15:00.000Z",
+      "httpLink": "https://crm.lightfield.app/crm/notes/not_1",
+      "externalId": null,
+      "fields": {
+        "$title": {"value": "Discovery call", "valueType": "TEXT"},
+        "$content": {"value": "Budget approved for Q4.", "valueType": "MARKDOWN"}
+      },
+      "relationships": {
+        "$account": {"cardinality": "HAS_ONE", "objectType": "account", "values": ["acc_1"]},
+        "$opportunity": {"cardinality": "HAS_ONE", "objectType": "opportunity", "values": []}
+      }
+    }
+  ],
+  "object": "list",
+  "totalCount": 1
+}
