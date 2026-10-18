@@ -64,11 +64,6 @@
         "valueType": "other",
         "providerType": "object"
       },
-      "discounts": {
-        "displayName": "Discounts",
-        "valueType": "other",
-        "providerType": "array"
-      },
       "id": {
         "displayName": "Id",
         "valueType": "string",
