@@ -14,7 +14,7 @@ func init() {
 				Name:        "Authorization",
 				ValuePrefix: "Bearer ",
 			},
-			DocsURL: "https://docs.withorb.com/api-reference/availability/check-availability",
+			DocsURL: "https://docs.withorb.com/tutorials/first-usage-event#step-2-generate-an-api-key",
 		},
 		Support: Support{
 			BulkWrite: BulkWriteSupport{

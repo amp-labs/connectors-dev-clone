@@ -311,7 +311,8 @@
       },
       "discount": {
         "displayName": "Discount",
-        "valueType": "other"
+        "valueType": "other",
+        "providerType": "object"
       },
       "discounts": {
         "displayName": "Discounts",

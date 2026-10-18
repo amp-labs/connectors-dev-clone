@@ -180,3 +180,30 @@ func TestListObjectMetadata(t *testing.T) { // nolint:funlen
 		})
 	}
 }
+
+// The docs' list example shows `discounts` on credit notes, but the live list response never returns it.
+func TestListObjectMetadataCreditNotesHaveNoDiscounts(t *testing.T) {
+	t.Parallel()
+
+	server := mockserver.Dummy()
+	defer server.Close()
+
+	connector, err := constructTestConnector(server.URL)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	result, err := connector.ListObjectMetadata(t.Context(), []string{"credit_notes"})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	creditNotes, ok := result.Result["credit_notes"]
+	if !ok {
+		t.Fatalf("credit_notes metadata is missing: %v", result.Errors)
+	}
+
+	if _, found := creditNotes.Fields["discounts"]; found {
+		t.Error("credit_notes metadata lists discounts, which Read never returns")
+	}
+}
