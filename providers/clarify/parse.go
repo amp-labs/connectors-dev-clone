@@ -43,9 +43,10 @@ func (c *Connector) nextPage(node *ajson.Node) (string, error) {
 }
 
 // makeUpdatedAtFilter keeps records whose `_updated_at` falls within (Since, Until].
-// It serves GET /users, whose reference documents only page and sortOrder, no filter.
-// Users come back ordered by `_id`, so every page is read: paging cannot stop early.
-// https://developer.clarify.ai/docs/api-reference/users/getUsers
+// Built-in objects arrive already narrowed by the server's date filter (see filterMargin);
+// GET /users documents only page and sortOrder, no filter, so users arrive unfiltered
+// (https://developer.clarify.ai/docs/api-reference/users/getUsers).
+// Records come back ordered by `_id`, so every page is read: paging cannot stop early.
 func makeUpdatedAtFilter(next common.NextPageFunc) common.RecordsFilterFunc {
 	boundary := readhelper.NewTimeBoundary(readhelper.ExcludeSince())
 

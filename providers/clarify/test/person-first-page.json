@@ -35,7 +35,7 @@
   "included": [],
   "meta": {"total_records": 3, "total_pages": 2, "offset": 0, "limit": 2},
   "links": {
-    "next": "http://api.clarify.ai/v1/workspaces/acme/objects/person/resources?page%5Boffset%5D=2&page%5Blimit%5D=2&filter%5B_updated_at%5D%5BIs%20after%5D=2025-01-01T00%3A00%3A00.000Z",
+    "next": "http://api.clarify.ai/v1/workspaces/acme/objects/person/resources?page%5Boffset%5D=2&page%5Blimit%5D=2&filter%5B_updated_at%5D%5BIs%20on%20or%20after%5D=2024-12-31",
     "prev": null
   }
 }

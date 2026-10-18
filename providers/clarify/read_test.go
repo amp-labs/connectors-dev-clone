@@ -80,8 +80,9 @@ func TestRead(t *testing.T) { //nolint:funlen,maintidx
 					mockcond.Path("/v1/workspaces/acme/objects/person/resources"),
 					mockcond.QueryParam("page[limit]", "2"),
 					mockcond.QueryParam("page[offset]", "0"),
-					mockcond.QueryParam("filter[_updated_at][Is after]", "2025-01-01T00:00:00.000Z"),
-					mockcond.QueryParam("filter[_updated_at][Is on or before]", "2026-03-01T12:30:00.500Z"),
+					// The server filter is by date, a day wider on each side.
+					mockcond.QueryParam("filter[_updated_at][Is on or after]", "2024-12-31"),
+					mockcond.QueryParam("filter[_updated_at][Is on or before]", "2026-03-02"),
 				},
 				Then: mockserver.Response(http.StatusOK, responsePersonFirstPage),
 			}.Server(),
@@ -122,7 +123,41 @@ func TestRead(t *testing.T) { //nolint:funlen,maintidx
 				// links.next comes back as http://api.clarify.ai/...; only its path and query are kept.
 				NextPage: testconn.URLTestServer + "/v1/workspaces/acme/objects/person/resources" +
 					"?page%5Boffset%5D=2&page%5Blimit%5D=2" +
-					"&filter%5B_updated_at%5D%5BIs%20after%5D=2025-01-01T00%3A00%3A00.000Z",
+					"&filter%5B_updated_at%5D%5BIs%20on%20or%20after%5D=2024-12-31",
+				Done: false,
+			},
+		},
+		{
+			Name: "People are filtered exactly by the connector: Since exclusive, Until inclusive",
+			Input: common.ReadParams{
+				ObjectName: "person",
+				Fields:     connectors.Fields("id"),
+				PageSize:   2,
+				// The first record was updated at exactly Since; the API's own filter returned it.
+				Since: time.Date(2025, 8, 27, 18, 36, 13, 720_000_000, time.UTC),
+				Until: time.Date(2026, 2, 1, 17, 45, 0, 0, time.UTC),
+			},
+			Server: mockserver.Conditional{
+				Setup: mockserver.ContentJSON(),
+				If: mockcond.And{
+					mockcond.Path("/v1/workspaces/acme/objects/person/resources"),
+					mockcond.QueryParam("filter[_updated_at][Is on or after]", "2025-08-26"),
+					mockcond.QueryParam("filter[_updated_at][Is on or before]", "2026-02-02"),
+				},
+				Then: mockserver.Response(http.StatusOK, responsePersonFirstPage),
+			}.Server(),
+			Comparator: testconn.ComparatorSubsetRead,
+			Expected: &common.ReadResult{
+				Rows: 1,
+				Data: []common.ReadResultRow{{
+					Id:     "5f8b7d2e-9c4a-4e1b-8f3d-2a6c9e0b4d71",
+					Fields: map[string]any{"id": "5f8b7d2e-9c4a-4e1b-8f3d-2a6c9e0b4d71"},
+					Raw:    map[string]any{"id": "5f8b7d2e-9c4a-4e1b-8f3d-2a6c9e0b4d71"},
+				}},
+				// Records filtered out by the connector do not end paging.
+				NextPage: testconn.URLTestServer + "/v1/workspaces/acme/objects/person/resources" +
+					"?page%5Boffset%5D=2&page%5Blimit%5D=2" +
+					"&filter%5B_updated_at%5D%5BIs%20on%20or%20after%5D=2024-12-31",
 				Done: false,
 			},
 		},

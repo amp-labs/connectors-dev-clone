@@ -15,12 +15,12 @@ Read-only deep connector for the Clarify CRM REST API (JSON:API).
 
 | Object    | Endpoint                                 | Metadata           | Incremental        |
 |-----------|------------------------------------------|--------------------|--------------------|
-| `person`  | `GET /objects/person/resources`          | `GET /schemas`     | server, `_updated_at` |
-| `company` | `GET /objects/company/resources`         | `GET /schemas`     | server, `_updated_at` |
-| `deal`    | `GET /objects/deal/resources`            | `GET /schemas`     | server, `_updated_at` |
-| `meeting` | `GET /objects/meeting/resources`         | `GET /schemas`     | server, `_updated_at` |
-| `task`    | `GET /objects/task/resources`            | `GET /schemas`     | server, `_updated_at` |
-| `user`    | `GET /users`                             | static (docs)      | connector-side     |
+| `person`  | `GET /objects/person/resources`          | `GET /schemas`     | server by date + connector |
+| `company` | `GET /objects/company/resources`         | `GET /schemas`     | server by date + connector |
+| `deal`    | `GET /objects/deal/resources`            | `GET /schemas`     | server by date + connector |
+| `meeting` | `GET /objects/meeting/resources`         | `GET /schemas`     | server by date + connector |
+| `task`    | `GET /objects/task/resources`            | `GET /schemas`     | server by date + connector |
+| `user`    | `GET /users`                             | static (docs)      | connector only     |
 
 Object names are the `{object}` path parameter. `GET /schemas` returns every schema of the
 workspace in one listing, fetched once per `ListObjectMetadata` call; `.../entities/{object}`
@@ -45,11 +45,13 @@ ordered by `_id`.
 
 ## Incremental read
 
-Built-in objects send `filter[_updated_at][Is after]=<Since>` and
-`filter[_updated_at][Is on or before]=<Until>` (RFC 3339 UTC with milliseconds), so Since is
-exclusive and Until inclusive ([Filtering](https://developer.clarify.ai/docs/api-basics/filtering)).
-`GET /users` documents no filter, so users are read in full and kept when `_updated_at` is within
-`(Since, Until]`.
+The connector keeps records whose `_updated_at` is within `(Since, Until]` for every object.
+Built-in objects are also narrowed on the server with `filter[_updated_at][Is on or after]=<Since - 1 day>`
+and `[Is on or before]=<Until + 1 day>`, as dates
+([Filtering](https://developer.clarify.ai/docs/api-basics/filtering)). The server filter can't be
+exact: live, `[Is after]=2025-08-27T18:36:13.720Z` returned a record updated at exactly that time,
+and the docs give neither the precision nor the timezone of the comparison, so the day of margin
+keeps it from dropping records. `GET /users` documents no filter, so users are read in full.
 
 ## Rate limits
 
