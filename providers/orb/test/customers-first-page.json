@@ -1,0 +1,65 @@
+{
+  "data": [
+    {
+      "metadata": {},
+      "id": "XuxCbt7x9L82yyeF",
+      "external_customer_id": "acme-001",
+      "name": "Acme Corp",
+      "email": "billing@acme.example",
+      "timezone": "Etc/UTC",
+      "payment_provider_id": null,
+      "payment_provider": null,
+      "created_at": "2026-09-20T08:15:00+00:00",
+      "shipping_address": null,
+      "billing_address": {
+        "line1": "1 Market St",
+        "line2": null,
+        "city": "San Francisco",
+        "state": "CA",
+        "postal_code": "94105",
+        "country": "US"
+      },
+      "balance": "0.00",
+      "currency": "USD",
+      "tax_id": null,
+      "auto_collection": true,
+      "exempt_from_automated_tax": false,
+      "email_delivery": true,
+      "additional_emails": [],
+      "portal_url": null,
+      "hierarchy": {
+        "parent": null,
+        "children": []
+      }
+    },
+    {
+      "metadata": {},
+      "id": "Ab3kLmN9pQrSt7uV",
+      "external_customer_id": null,
+      "name": "Globex",
+      "email": "ap@globex.example",
+      "timezone": "America/New_York",
+      "payment_provider_id": "cus_123",
+      "payment_provider": "stripe_charge",
+      "created_at": "2026-09-01T10:00:00+00:00",
+      "shipping_address": null,
+      "billing_address": null,
+      "balance": "-12.50",
+      "currency": "USD",
+      "tax_id": null,
+      "auto_collection": false,
+      "exempt_from_automated_tax": false,
+      "email_delivery": true,
+      "additional_emails": [],
+      "portal_url": null,
+      "hierarchy": {
+        "parent": null,
+        "children": []
+      }
+    }
+  ],
+  "pagination_metadata": {
+    "has_more": true,
+    "next_cursor": "Y3Vyc29yLTI="
+  }
+}

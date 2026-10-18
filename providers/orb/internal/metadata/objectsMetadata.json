@@ -1,0 +1,689 @@
+{
+  "coupons": {
+    "path": "/v1/coupons",
+    "displayName": "Coupons",
+    "fields": {
+      "archived_at": {
+        "displayName": "Archived At",
+        "valueType": "datetime",
+        "providerType": "string"
+      },
+      "discount": {
+        "displayName": "Discount",
+        "valueType": "other",
+        "providerType": "object"
+      },
+      "duration_in_months": {
+        "displayName": "Duration In Months",
+        "valueType": "int",
+        "providerType": "integer"
+      },
+      "id": {
+        "displayName": "Id",
+        "valueType": "string",
+        "providerType": "string"
+      },
+      "max_redemptions": {
+        "displayName": "Max Redemptions",
+        "valueType": "int",
+        "providerType": "integer"
+      },
+      "redemption_code": {
+        "displayName": "Redemption Code",
+        "valueType": "string",
+        "providerType": "string"
+      },
+      "times_redeemed": {
+        "displayName": "Times Redeemed",
+        "valueType": "int",
+        "providerType": "integer"
+      }
+    }
+  },
+  "credit_notes": {
+    "path": "/v1/credit_notes",
+    "displayName": "Credit Notes",
+    "fields": {
+      "created_at": {
+        "displayName": "Created At",
+        "valueType": "datetime",
+        "providerType": "string"
+      },
+      "credit_note_number": {
+        "displayName": "Credit Note Number",
+        "valueType": "string",
+        "providerType": "string"
+      },
+      "credit_note_pdf": {
+        "displayName": "Credit Note Pdf",
+        "valueType": "string",
+        "providerType": "string"
+      },
+      "customer": {
+        "displayName": "Customer",
+        "valueType": "other",
+        "providerType": "object"
+      },
+      "discounts": {
+        "displayName": "Discounts",
+        "valueType": "other",
+        "providerType": "array"
+      },
+      "id": {
+        "displayName": "Id",
+        "valueType": "string",
+        "providerType": "string"
+      },
+      "invoice_id": {
+        "displayName": "Invoice Id",
+        "valueType": "reference",
+        "providerType": "string",
+        "referenceTo": [
+          "invoices"
+        ]
+      },
+      "line_items": {
+        "displayName": "Line Items",
+        "valueType": "other",
+        "providerType": "array"
+      },
+      "maximum_amount_adjustment": {
+        "displayName": "Maximum Amount Adjustment",
+        "valueType": "other",
+        "providerType": "object"
+      },
+      "memo": {
+        "displayName": "Memo",
+        "valueType": "string",
+        "providerType": "string"
+      },
+      "minimum_amount_refunded": {
+        "displayName": "Minimum Amount Refunded",
+        "valueType": "string",
+        "providerType": "string"
+      },
+      "reason": {
+        "displayName": "Reason",
+        "valueType": "string",
+        "providerType": "string"
+      },
+      "subtotal": {
+        "displayName": "Subtotal",
+        "valueType": "string",
+        "providerType": "string"
+      },
+      "total": {
+        "displayName": "Total",
+        "valueType": "string",
+        "providerType": "string"
+      },
+      "type": {
+        "displayName": "Type",
+        "valueType": "string",
+        "providerType": "string"
+      },
+      "voided_at": {
+        "displayName": "Voided At",
+        "valueType": "datetime",
+        "providerType": "string"
+      }
+    }
+  },
+  "customers": {
+    "path": "/v1/customers",
+    "displayName": "Customers",
+    "fields": {
+      "accounting_sync_configuration": {
+        "displayName": "Accounting Sync Configuration",
+        "valueType": "other",
+        "providerType": "object"
+      },
+      "additional_emails": {
+        "displayName": "Additional Emails",
+        "valueType": "other",
+        "providerType": "array"
+      },
+      "auto_collection": {
+        "displayName": "Auto Collection",
+        "valueType": "boolean",
+        "providerType": "boolean"
+      },
+      "auto_issuance": {
+        "displayName": "Auto Issuance",
+        "valueType": "boolean",
+        "providerType": "boolean"
+      },
+      "automatic_tax_enabled": {
+        "displayName": "Automatic Tax Enabled",
+        "valueType": "boolean",
+        "providerType": "boolean"
+      },
+      "balance": {
+        "displayName": "Balance",
+        "valueType": "string",
+        "providerType": "string"
+      },
+      "billing_address": {
+        "displayName": "Billing Address",
+        "valueType": "other",
+        "providerType": "object"
+      },
+      "created_at": {
+        "displayName": "Created At",
+        "valueType": "datetime",
+        "providerType": "string"
+      },
+      "currency": {
+        "displayName": "Currency",
+        "valueType": "string",
+        "providerType": "string"
+      },
+      "default_payment_method": {
+        "displayName": "Default Payment Method",
+        "valueType": "other",
+        "providerType": "object"
+      },
+      "email": {
+        "displayName": "Email",
+        "valueType": "string",
+        "providerType": "string"
+      },
+      "email_delivery": {
+        "displayName": "Email Delivery",
+        "valueType": "boolean",
+        "providerType": "boolean"
+      },
+      "exempt_from_automated_tax": {
+        "displayName": "Exempt From Automated Tax",
+        "valueType": "boolean",
+        "providerType": "boolean"
+      },
+      "external_customer_id": {
+        "displayName": "External Customer Id",
+        "valueType": "string",
+        "providerType": "string"
+      },
+      "hierarchy": {
+        "displayName": "Hierarchy",
+        "valueType": "other",
+        "providerType": "object"
+      },
+      "id": {
+        "displayName": "Id",
+        "valueType": "string",
+        "providerType": "string"
+      },
+      "metadata": {
+        "displayName": "Metadata",
+        "valueType": "other",
+        "providerType": "object"
+      },
+      "name": {
+        "displayName": "Name",
+        "valueType": "string",
+        "providerType": "string"
+      },
+      "payment_configuration": {
+        "displayName": "Payment Configuration",
+        "valueType": "other",
+        "providerType": "object"
+      },
+      "payment_provider": {
+        "displayName": "Payment Provider",
+        "valueType": "string",
+        "providerType": "string"
+      },
+      "payment_provider_id": {
+        "displayName": "Payment Provider Id",
+        "valueType": "string",
+        "providerType": "string"
+      },
+      "portal_url": {
+        "displayName": "Portal Url",
+        "valueType": "string",
+        "providerType": "string"
+      },
+      "reporting_configuration": {
+        "displayName": "Reporting Configuration",
+        "valueType": "other",
+        "providerType": "object"
+      },
+      "shipping_address": {
+        "displayName": "Shipping Address",
+        "valueType": "other",
+        "providerType": "object"
+      },
+      "tax_id": {
+        "displayName": "Tax Id",
+        "valueType": "other",
+        "providerType": "object"
+      },
+      "timezone": {
+        "displayName": "Timezone",
+        "valueType": "string",
+        "providerType": "string"
+      }
+    }
+  },
+  "invoices": {
+    "path": "/v1/invoices",
+    "displayName": "Invoices",
+    "fields": {
+      "amount_due": {
+        "displayName": "Amount Due",
+        "valueType": "string",
+        "providerType": "string"
+      },
+      "auto_collection": {
+        "displayName": "Auto Collection",
+        "valueType": "other",
+        "providerType": "object"
+      },
+      "billing_address": {
+        "displayName": "Billing Address",
+        "valueType": "other",
+        "providerType": "object"
+      },
+      "created_at": {
+        "displayName": "Created At",
+        "valueType": "datetime",
+        "providerType": "string"
+      },
+      "credit_notes": {
+        "displayName": "Credit Notes",
+        "valueType": "other",
+        "providerType": "array"
+      },
+      "currency": {
+        "displayName": "Currency",
+        "valueType": "string",
+        "providerType": "string"
+      },
+      "customer": {
+        "displayName": "Customer",
+        "valueType": "other",
+        "providerType": "object"
+      },
+      "customer_balance_transactions": {
+        "displayName": "Customer Balance Transactions",
+        "valueType": "other",
+        "providerType": "array"
+      },
+      "customer_tax_id": {
+        "displayName": "Customer Tax Id",
+        "valueType": "other",
+        "providerType": "object"
+      },
+      "discount": {
+        "displayName": "Discount",
+        "valueType": "other"
+      },
+      "discounts": {
+        "displayName": "Discounts",
+        "valueType": "other",
+        "providerType": "array"
+      },
+      "due_date": {
+        "displayName": "Due Date",
+        "valueType": "datetime",
+        "providerType": "string"
+      },
+      "eligible_to_issue_at": {
+        "displayName": "Eligible To Issue At",
+        "valueType": "datetime",
+        "providerType": "string"
+      },
+      "hidden_line_item_count": {
+        "displayName": "Hidden Line Item Count",
+        "valueType": "int",
+        "providerType": "integer"
+      },
+      "hosted_invoice_url": {
+        "displayName": "Hosted Invoice Url",
+        "valueType": "string",
+        "providerType": "string"
+      },
+      "id": {
+        "displayName": "Id",
+        "valueType": "string",
+        "providerType": "string"
+      },
+      "invoice_date": {
+        "displayName": "Invoice Date",
+        "valueType": "datetime",
+        "providerType": "string"
+      },
+      "invoice_number": {
+        "displayName": "Invoice Number",
+        "valueType": "string",
+        "providerType": "string"
+      },
+      "invoice_pdf": {
+        "displayName": "Invoice Pdf",
+        "valueType": "string",
+        "providerType": "string"
+      },
+      "invoice_source": {
+        "displayName": "Invoice Source",
+        "valueType": "string",
+        "providerType": "string"
+      },
+      "issue_failed_at": {
+        "displayName": "Issue Failed At",
+        "valueType": "datetime",
+        "providerType": "string"
+      },
+      "issued_at": {
+        "displayName": "Issued At",
+        "valueType": "datetime",
+        "providerType": "string"
+      },
+      "line_items": {
+        "displayName": "Line Items",
+        "valueType": "other",
+        "providerType": "array"
+      },
+      "maximum": {
+        "displayName": "Maximum",
+        "valueType": "other",
+        "providerType": "object"
+      },
+      "maximum_amount": {
+        "displayName": "Maximum Amount",
+        "valueType": "string",
+        "providerType": "string"
+      },
+      "memo": {
+        "displayName": "Memo",
+        "valueType": "string",
+        "providerType": "string"
+      },
+      "metadata": {
+        "displayName": "Metadata",
+        "valueType": "other",
+        "providerType": "object"
+      },
+      "minimum": {
+        "displayName": "Minimum",
+        "valueType": "other",
+        "providerType": "object"
+      },
+      "minimum_amount": {
+        "displayName": "Minimum Amount",
+        "valueType": "string",
+        "providerType": "string"
+      },
+      "paid_at": {
+        "displayName": "Paid At",
+        "valueType": "datetime",
+        "providerType": "string"
+      },
+      "payment_attempts": {
+        "displayName": "Payment Attempts",
+        "valueType": "other",
+        "providerType": "array"
+      },
+      "payment_failed_at": {
+        "displayName": "Payment Failed At",
+        "valueType": "datetime",
+        "providerType": "string"
+      },
+      "payment_received_at": {
+        "displayName": "Payment Received At",
+        "valueType": "datetime",
+        "providerType": "string"
+      },
+      "payment_started_at": {
+        "displayName": "Payment Started At",
+        "valueType": "datetime",
+        "providerType": "string"
+      },
+      "scheduled_issue_at": {
+        "displayName": "Scheduled Issue At",
+        "valueType": "datetime",
+        "providerType": "string"
+      },
+      "shipping_address": {
+        "displayName": "Shipping Address",
+        "valueType": "other",
+        "providerType": "object"
+      },
+      "status": {
+        "displayName": "Status",
+        "valueType": "singleSelect",
+        "providerType": "enum",
+        "values": [
+          {
+            "value": "draft",
+            "displayValue": "Draft"
+          },
+          {
+            "value": "issued",
+            "displayValue": "Issued"
+          },
+          {
+            "value": "paid",
+            "displayValue": "Paid"
+          },
+          {
+            "value": "synced",
+            "displayValue": "Synced"
+          },
+          {
+            "value": "void",
+            "displayValue": "Void"
+          }
+        ]
+      },
+      "subscription": {
+        "displayName": "Subscription",
+        "valueType": "other",
+        "providerType": "object"
+      },
+      "subtotal": {
+        "displayName": "Subtotal",
+        "valueType": "string",
+        "providerType": "string"
+      },
+      "sync_failed_at": {
+        "displayName": "Sync Failed At",
+        "valueType": "datetime",
+        "providerType": "string"
+      },
+      "total": {
+        "displayName": "Total",
+        "valueType": "string",
+        "providerType": "string"
+      },
+      "voided_at": {
+        "displayName": "Voided At",
+        "valueType": "datetime",
+        "providerType": "string"
+      },
+      "will_auto_issue": {
+        "displayName": "Will Auto Issue",
+        "valueType": "boolean",
+        "providerType": "boolean"
+      }
+    }
+  },
+  "items": {
+    "path": "/v1/items",
+    "displayName": "Items",
+    "fields": {
+      "archived_at": {
+        "displayName": "Archived At",
+        "valueType": "datetime",
+        "providerType": "string"
+      },
+      "created_at": {
+        "displayName": "Created At",
+        "valueType": "datetime",
+        "providerType": "string"
+      },
+      "external_connections": {
+        "displayName": "External Connections",
+        "valueType": "other",
+        "providerType": "array"
+      },
+      "id": {
+        "displayName": "Id",
+        "valueType": "string",
+        "providerType": "string"
+      },
+      "metadata": {
+        "displayName": "Metadata",
+        "valueType": "other",
+        "providerType": "object"
+      },
+      "name": {
+        "displayName": "Name",
+        "valueType": "string",
+        "providerType": "string"
+      }
+    }
+  },
+  "plans": {
+    "path": "/v1/plans",
+    "displayName": "Plans",
+    "fields": {
+      "adjustments": {
+        "displayName": "Adjustments",
+        "valueType": "other",
+        "providerType": "array"
+      },
+      "base_plan": {
+        "displayName": "Base Plan",
+        "valueType": "other",
+        "providerType": "object"
+      },
+      "base_plan_id": {
+        "displayName": "Base Plan Id",
+        "valueType": "reference",
+        "providerType": "string",
+        "referenceTo": [
+          "plans"
+        ]
+      },
+      "created_at": {
+        "displayName": "Created At",
+        "valueType": "datetime",
+        "providerType": "string"
+      },
+      "currency": {
+        "displayName": "Currency",
+        "valueType": "string",
+        "providerType": "string"
+      },
+      "default_invoice_memo": {
+        "displayName": "Default Invoice Memo",
+        "valueType": "string",
+        "providerType": "string"
+      },
+      "description": {
+        "displayName": "Description",
+        "valueType": "string",
+        "providerType": "string"
+      },
+      "discount": {
+        "displayName": "Discount",
+        "valueType": "other",
+        "providerType": "object"
+      },
+      "external_plan_id": {
+        "displayName": "External Plan Id",
+        "valueType": "string",
+        "providerType": "string"
+      },
+      "id": {
+        "displayName": "Id",
+        "valueType": "string",
+        "providerType": "string"
+      },
+      "invoicing_currency": {
+        "displayName": "Invoicing Currency",
+        "valueType": "string",
+        "providerType": "string"
+      },
+      "maximum": {
+        "displayName": "Maximum",
+        "valueType": "other",
+        "providerType": "object"
+      },
+      "maximum_amount": {
+        "displayName": "Maximum Amount",
+        "valueType": "string",
+        "providerType": "string"
+      },
+      "metadata": {
+        "displayName": "Metadata",
+        "valueType": "other",
+        "providerType": "object"
+      },
+      "minimum": {
+        "displayName": "Minimum",
+        "valueType": "other",
+        "providerType": "object"
+      },
+      "minimum_amount": {
+        "displayName": "Minimum Amount",
+        "valueType": "string",
+        "providerType": "string"
+      },
+      "name": {
+        "displayName": "Name",
+        "valueType": "string",
+        "providerType": "string"
+      },
+      "net_terms": {
+        "displayName": "Net Terms",
+        "valueType": "int",
+        "providerType": "integer"
+      },
+      "plan_phases": {
+        "displayName": "Plan Phases",
+        "valueType": "other",
+        "providerType": "array"
+      },
+      "prices": {
+        "displayName": "Prices",
+        "valueType": "other",
+        "providerType": "array"
+      },
+      "product": {
+        "displayName": "Product",
+        "valueType": "other",
+        "providerType": "object"
+      },
+      "status": {
+        "displayName": "Status",
+        "valueType": "singleSelect",
+        "providerType": "enum",
+        "values": [
+          {
+            "value": "active",
+            "displayValue": "Active"
+          },
+          {
+            "value": "archived",
+            "displayValue": "Archived"
+          },
+          {
+            "value": "draft",
+            "displayValue": "Draft"
+          }
+        ]
+      },
+      "trial_config": {
+        "displayName": "Trial Config",
+        "valueType": "other",
+        "providerType": "object"
+      },
+      "version": {
+        "displayName": "Version",
+        "valueType": "int",
+        "providerType": "integer"
+      }
+    }
+  }
+}
