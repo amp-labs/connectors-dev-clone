@@ -1,0 +1,1 @@
+{"errors": [{"status": "422", "title": "Invalid input", "detail": "/page/limit: must be <= 500", "source": {"pointer": "/page/limit"}}]}

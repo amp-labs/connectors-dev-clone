@@ -1,0 +1,36 @@
+{
+  "data": [
+    {
+      "id": "user_01JZKRMYJMFWPFW74MD3G31998",
+      "type": "user",
+      "attributes": {
+        "_id": "user_01JZKRMYJMFWPFW74MD3G31998",
+        "name": {"full_name": "Alex Rivera", "last_name": "Rivera", "first_name": "Alex"},
+        "email": "alex@acme.com",
+        "roles": {"items": ["admin"]},
+        "_created_at": "2025-07-11T01:53:36.637Z",
+        "_updated_at": "2026-02-01T17:45:00.000Z",
+        "last_active_at": "2026-02-01T17:45:00.000Z",
+        "profile_picture": "https://storage.clarify.ai/avatars/acme/alex-rivera.png",
+        "is_service_account": false
+      }
+    },
+    {
+      "id": "user_01K1VN53JRP761BANN7KDQ8AVK",
+      "type": "user",
+      "attributes": {
+        "_id": "user_01K1VN53JRP761BANN7KDQ8AVK",
+        "name": {"full_name": "Sam Lee", "last_name": "Lee", "first_name": "Sam"},
+        "email": "sam@acme.com",
+        "roles": {"items": ["member"]},
+        "_created_at": "2025-08-04T23:02:37.665Z",
+        "_updated_at": "2025-09-10T19:53:51.989Z",
+        "last_active_at": null,
+        "profile_picture": null,
+        "is_service_account": false
+      }
+    }
+  ],
+  "meta": {"total_records": 2, "total_pages": 1, "offset": 0, "limit": 500},
+  "links": {"next": null, "prev": null}
+}

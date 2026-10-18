@@ -1,0 +1,72 @@
+{
+  "links": {"next": null},
+  "data": [
+    {
+      "id": "https://getclarify.ai/schemas/core/person",
+      "type": "schema",
+      "attributes": {
+        "$id": "https://getclarify.ai/schemas/core/person",
+        "title": "person",
+        "type": "object",
+        "properties": {
+          "_id": {"type": "string", "format": "uuid", "readOnly": true, "title": "Record ID"},
+          "name": {"oneOf": [{"$ref": "https://getclarify.ai/schemas/core/name"}], "title": "Name"},
+          "job_title": {"type": ["string", "null"], "title": "Job title"},
+          "_updated_at": {"type": "string", "format": "date-time", "readOnly": true, "title": "Updated at"}
+        }
+      }
+    },
+    {
+      "id": "https://getclarify.ai/schemas/entities/person",
+      "type": "schema",
+      "attributes": {
+        "$id": "https://getclarify.ai/schemas/entities/person",
+        "title": "Person",
+        "type": "object",
+        "xClarifyLabel": {"singular": "Person", "plural": "People"},
+        "allOf": [{"$ref": "https://getclarify.ai/schemas/core/person"}],
+        "properties": {
+          "job_title": {"type": ["string", "null"], "title": "Job Title"},
+          "persona": {"type": ["string", "null"], "title": "Persona", "enum": ["Buyer", "Champion"]},
+          "company_id": {
+            "type": ["string", "null"],
+            "title": "Company",
+            "xClarifyRelationship": {"kind": "many-to-one", "entity": "company", "field": "people"}
+          },
+          "deals": {
+            "type": "array",
+            "title": "Deals",
+            "xClarifyRelationship": {"kind": "many-to-many", "entity": "deal", "field": "people"}
+          }
+        }
+      }
+    },
+    {
+      "id": "https://getclarify.ai/schemas/entities/deal",
+      "type": "schema",
+      "attributes": {
+        "$id": "https://getclarify.ai/schemas/entities/deal",
+        "title": "Deal",
+        "type": "object",
+        "xClarifyLabel": {"singular": "Deal", "plural": "Deals"},
+        "properties": {
+          "name": {"type": "string", "title": "Name", "xClarifyPrimary": true},
+          "amount": {"type": ["number", "null"], "title": "Amount"},
+          "close_date": {"type": ["string", "null"], "format": "date", "title": "Close date"},
+          "is_won": {"type": "boolean", "title": "Won"},
+          "tags": {"type": "array", "title": "Tags", "items": {"type": "string", "enum": ["Inbound", "Outbound"]}}
+        }
+      }
+    },
+    {
+      "id": "https://getclarify.ai/schemas/entities/c_project",
+      "type": "schema",
+      "attributes": {
+        "$id": "https://getclarify.ai/schemas/entities/c_project",
+        "title": "Project",
+        "type": "object",
+        "properties": {"name": {"type": "string", "title": "Name"}}
+      }
+    }
+  ]
+}
