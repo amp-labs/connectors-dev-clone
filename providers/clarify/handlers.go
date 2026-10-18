@@ -40,8 +40,8 @@ func (c *Connector) buildReadRequest(ctx context.Context, params common.ReadPara
 }
 
 func (c *Connector) readURL(params common.ReadParams) (string, error) {
-	// "Link URLs are percent-encoded ... Pass them through unchanged rather than rebuilding them."
-	// https://developer.clarify.ai/docs/api-basics/pagination#response
+	// NextPage is links.next on the connector's origin; its encoded query (filters included)
+	// is used unchanged. See nextPage.
 	if params.NextPage != "" {
 		return params.NextPage.String(), nil
 	}
@@ -102,9 +102,9 @@ func (c *Connector) parseReadResponse(
 	request *http.Request,
 	response *common.JSONHTTPResponse,
 ) (*common.ReadResult, error) {
-	filter := readhelper.MakeIdentityFilterFunc(nextPage)
+	filter := readhelper.MakeIdentityFilterFunc(c.nextPage)
 	if !entityObjects.Has(params.ObjectName) {
-		filter = makeUpdatedAtFilter(nextPage)
+		filter = makeUpdatedAtFilter(c.nextPage)
 	}
 
 	return common.ParseResultFiltered(params, response,

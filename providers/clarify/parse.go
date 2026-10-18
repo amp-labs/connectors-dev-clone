@@ -2,6 +2,7 @@ package clarify
 
 import (
 	"fmt"
+	"net/url"
 	"time"
 
 	"github.com/amp-labs/connectors/common"
@@ -10,19 +11,35 @@ import (
 	"github.com/spyzhov/ajson"
 )
 
-// nextPage returns links.next, which is null on the last page.
+// nextPage returns links.next, which is null on the last page, on the connector's origin.
 // https://developer.clarify.ai/docs/api-basics/pagination#response
-func nextPage(node *ajson.Node) (string, error) {
+// The docs say to fetch the link verbatim, but the live API returns it with an `http://` scheme
+// (http://api.clarify.ai/v1/workspaces/...), which would send the API key over plain HTTP.
+// The link's path and already-encoded query are kept as they are; only scheme and host are replaced.
+func (c *Connector) nextPage(node *ajson.Node) (string, error) {
 	next, err := jsonquery.New(node, "links").StringOptional("next")
 	if err != nil {
 		return "", err
 	}
 
-	if next == nil {
+	if next == nil || *next == "" {
 		return "", nil
 	}
 
-	return *next, nil
+	nextURL, err := url.Parse(*next)
+	if err != nil {
+		return "", err
+	}
+
+	baseURL, err := url.Parse(c.ProviderInfo().BaseURL)
+	if err != nil {
+		return "", err
+	}
+
+	nextURL.Scheme = baseURL.Scheme
+	nextURL.Host = baseURL.Host
+
+	return nextURL.String(), nil
 }
 
 // makeUpdatedAtFilter keeps records whose `_updated_at` falls within (Since, Until].
