@@ -1,0 +1,38 @@
+{
+  "data": [
+    {
+      "id": "tsk_2",
+      "createdAt": "2026-09-18T10:00:00.000Z",
+      "updatedAt": "2026-09-19T11:30:00.000Z",
+      "httpLink": "https://crm.lightfield.app/crm/tasks/tsk_2",
+      "externalId": null,
+      "fields": {
+        "$title": {"value": "Send renewal quote", "valueType": "TEXT"},
+        "$status": {"value": "IN_PROGRESS", "valueType": "SINGLE_SELECT"},
+        "$dueAt": {"value": "2026-09-30T17:00:00.000Z", "valueType": "DATETIME"}
+      },
+      "relationships": {
+        "$account": {"cardinality": "HAS_MANY", "objectType": "$account", "values": ["acc_1"]},
+        "$assignedTo": {"cardinality": "HAS_ONE", "objectType": "$member", "values": ["usr_1"]}
+      }
+    },
+    {
+      "id": "tsk_1",
+      "createdAt": "2026-09-10T09:00:00.000Z",
+      "updatedAt": null,
+      "httpLink": "https://crm.lightfield.app/crm/tasks/tsk_1",
+      "externalId": null,
+      "fields": {
+        "$title": {"value": "Intro call", "valueType": "TEXT"},
+        "$status": {"value": "TODO", "valueType": "SINGLE_SELECT"},
+        "$dueAt": {"value": null, "valueType": "DATETIME"}
+      },
+      "relationships": {
+        "$account": {"cardinality": "HAS_MANY", "objectType": "$account", "values": []},
+        "$assignedTo": {"cardinality": "HAS_ONE", "objectType": "$member", "values": ["usr_2"]}
+      }
+    }
+  ],
+  "object": "list",
+  "totalCount": 3
+}

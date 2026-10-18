@@ -37,7 +37,8 @@ var versionHeader = common.Header{ // nolint:gochecknoglobals
 }
 
 // buildReadRequest lists records with limit/offset pagination. Since/Until are sent as
-// `$updatedAt` filters where the endpoint accepts them; members are filtered in parseReadResponse.
+// `$updatedAt` filters where the endpoint accepts them; members, notes and tasks are filtered
+// in parseReadResponse.
 // List results come from a search index that may lag recent changes.
 // https://docs.lightfield.app/using-the-api/list-endpoints
 func (c *Connector) buildReadRequest(ctx context.Context, params common.ReadParams) (*http.Request, error) {
