@@ -1,0 +1,23 @@
+{
+  "data": [
+    {
+      "id": "7iz2yanVjQoBZhyH",
+      "redemption_code": "HALFOFF",
+      "discount": {
+        "discount_type": "percentage",
+        "percentage_discount": 0.5,
+        "applies_to_price_ids": [],
+        "filters": [],
+        "reason": null
+      },
+      "times_redeemed": 3,
+      "duration_in_months": 12,
+      "max_redemptions": null,
+      "archived_at": "2026-09-30T00:00:00+00:00"
+    }
+  ],
+  "pagination_metadata": {
+    "has_more": false,
+    "next_cursor": null
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "data": [
+    {
+      "id": "VDGsT23osdLb84KD",
+      "start_date": "2026-09-01T00:00:00+00:00",
+      "end_date": null,
+      "status": "active",
+      "net_terms": 30,
+      "auto_collection": true,
+      "metadata": {},
+      "plan": {
+        "id": "m2t5akQeh2obwxeU",
+        "external_plan_id": "m2t5akQeh2obwxeU",
+        "name": "Example plan"
+      },
+      "customer": {
+        "id": "XuxCbt7x9L82yyeF",
+        "external_customer_id": "acme-001"
+      }
+    }
+  ],
+  "pagination_metadata": {
+    "has_more": true,
+    "next_cursor": "c3ViLTI="
+  }
+}
