@@ -1,22 +1,16 @@
 package orb
 
 import (
-	"net/http"
 	"testing"
 
 	"github.com/amp-labs/connectors/common"
 	"github.com/amp-labs/connectors/test/utils/mockutils"
-	"github.com/amp-labs/connectors/test/utils/mockutils/mockcond"
 	"github.com/amp-labs/connectors/test/utils/mockutils/mockserver"
 	"github.com/amp-labs/connectors/test/utils/testconn"
-	"github.com/amp-labs/connectors/test/utils/testutils"
 )
 
 func TestListObjectMetadata(t *testing.T) { // nolint:funlen
 	t.Parallel()
-
-	responseCustomers := testutils.DataFromFile(t, "customers-first-page.json")
-	responseSubscriptions := testutils.DataFromFile(t, "subscriptions-first-page.json")
 
 	tests := []testconn.TestCaseListObjectMetadata{
 		{
@@ -38,64 +32,95 @@ func TestListObjectMetadata(t *testing.T) { // nolint:funlen
 			},
 		},
 		{
-			Name:  "Fields are sampled from the list endpoints",
-			Input: []string{"customers", "subscriptions"},
-			Server: mockserver.Switch{
-				Setup: mockserver.ContentJSON(),
-				Cases: []mockserver.Case{{
-					If: mockcond.And{
-						mockcond.Path("/v1/customers"),
-						mockcond.QueryParam("limit", "20"),
-					},
-					Then: mockserver.Response(http.StatusOK, responseCustomers),
-				}, {
-					If: mockcond.And{
-						mockcond.Path("/v1/subscriptions"),
-						mockcond.QueryParam("limit", "20"),
-					},
-					Then: mockserver.Response(http.StatusOK, responseSubscriptions),
-				}},
-			}.Server(),
+			Name:       "Fields come from the generated catalog without any request",
+			Input:      []string{"customers", "invoices", "subscriptions", "credit_notes"},
+			Server:     mockserver.Dummy(),
 			Comparator: testconn.ComparatorSubsetMetadata,
 			Expected: &common.ListObjectMetadataResult{
 				Result: map[string]common.ObjectMetadata{
 					"customers": {
 						DisplayName: "Customers",
 						Fields: map[string]common.FieldMetadata{
-							"id":              {DisplayName: "Id", ValueType: common.ValueTypeString},
-							"auto_collection": {DisplayName: "Auto Collection", ValueType: common.ValueTypeBoolean},
-							"metadata":        {DisplayName: "Metadata", ValueType: common.ValueTypeOther},
-							// Null in the first record, a string in the second.
-							"external_customer_id": {DisplayName: "External Customer Id", ValueType: common.ValueTypeString},
-							// Null in every sampled record.
-							"currency": {DisplayName: "Currency", ValueType: common.ValueTypeOther},
+							"id": {
+								DisplayName:  "Id",
+								ValueType:    common.ValueTypeString,
+								ProviderType: "string",
+							},
+							"created_at": {
+								DisplayName:  "Created At",
+								ValueType:    common.ValueTypeDateTime,
+								ProviderType: "string",
+							},
+							// Nullable in the spec: oneOf [boolean, null].
+							"auto_issuance": {
+								DisplayName:  "Auto Issuance",
+								ValueType:    common.ValueTypeBoolean,
+								ProviderType: "boolean",
+							},
+							"billing_address": {
+								DisplayName:  "Billing Address",
+								ValueType:    common.ValueTypeOther,
+								ProviderType: "object",
+							},
+							"payment_provider": {
+								DisplayName:  "Payment Provider",
+								ValueType:    common.ValueTypeSingleSelect,
+								ProviderType: "string",
+								Values: []common.FieldValue{
+									{Value: "quickbooks", DisplayValue: "quickbooks"},
+									{Value: "bill.com", DisplayValue: "bill.com"},
+									{Value: "stripe_charge", DisplayValue: "stripe_charge"},
+									{Value: "stripe_invoice", DisplayValue: "stripe_invoice"},
+									{Value: "netsuite", DisplayValue: "netsuite"},
+									{Value: "adyen", DisplayValue: "adyen"},
+								},
+							},
+						},
+					},
+					"invoices": {
+						DisplayName: "Invoices",
+						Fields: map[string]common.FieldMetadata{
+							"voided_at": {
+								DisplayName:  "Voided At",
+								ValueType:    common.ValueTypeDateTime,
+								ProviderType: "string",
+							},
+							"status": {
+								DisplayName:  "Status",
+								ValueType:    common.ValueTypeSingleSelect,
+								ProviderType: "string",
+								Values: []common.FieldValue{
+									{Value: "issued", DisplayValue: "issued"},
+									{Value: "paid", DisplayValue: "paid"},
+									{Value: "synced", DisplayValue: "synced"},
+									{Value: "void", DisplayValue: "void"},
+									{Value: "draft", DisplayValue: "draft"},
+								},
+							},
 						},
 					},
 					"subscriptions": {
 						DisplayName: "Subscriptions",
 						Fields: map[string]common.FieldMetadata{
-							"status":            {DisplayName: "Status", ValueType: common.ValueTypeString},
-							"billing_cycle_day": {DisplayName: "Billing Cycle Day", ValueType: common.ValueTypeFloat},
-							"plan":              {DisplayName: "Plan", ValueType: common.ValueTypeOther},
+							"billing_cycle_day": {
+								DisplayName:  "Billing Cycle Day",
+								ValueType:    common.ValueTypeInt,
+								ProviderType: "integer",
+							},
+						},
+					},
+					"credit_notes": {
+						DisplayName: "Credit Notes",
+						Fields: map[string]common.FieldMetadata{
+							"total": {
+								DisplayName:  "Total",
+								ValueType:    common.ValueTypeString,
+								ProviderType: "string",
+							},
 						},
 					},
 				},
 				Errors: map[string]error{},
-			},
-		},
-		{
-			Name:  "Provider error is reported per object",
-			Input: []string{"invoices"},
-			Server: mockserver.Fixed{
-				Setup:  mockserver.ContentJSON(),
-				Always: mockserver.Response(http.StatusUnauthorized),
-			}.Server(),
-			Comparator: testconn.ComparatorSubsetMetadata,
-			Expected: &common.ListObjectMetadataResult{
-				Result: map[string]common.ObjectMetadata{},
-				Errors: map[string]error{
-					"invoices": mockutils.ExpectedSubsetErrors{common.ErrAccessToken},
-				},
 			},
 		},
 	}

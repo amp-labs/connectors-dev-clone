@@ -5,7 +5,6 @@ import (
 	"github.com/amp-labs/connectors/internal/components"
 	"github.com/amp-labs/connectors/internal/components/operations"
 	"github.com/amp-labs/connectors/internal/components/reader"
-	"github.com/amp-labs/connectors/internal/components/schema"
 	"github.com/amp-labs/connectors/providers"
 )
 
@@ -15,7 +14,6 @@ type Connector struct {
 	common.RequireAuthenticatedClient
 
 	components.Reader
-	components.SchemaProvider
 }
 
 func NewConnector(params common.ConnectorParams) (*Connector, error) {
@@ -29,16 +27,6 @@ func constructor(_ common.ConnectorParams, base *components.Connector) (*Connect
 	if err != nil {
 		return nil, err
 	}
-
-	connector.SchemaProvider = schema.NewObjectSchemaProvider(
-		connector.HTTPClient().Client,
-		schema.FetchModeParallel,
-		operations.SingleObjectMetadataHandlers{
-			BuildRequest:  connector.buildObjectMetadataRequest,
-			ParseResponse: connector.parseObjectMetadataResponse,
-			ErrorHandler:  common.InterpretError,
-		},
-	)
 
 	connector.Reader = reader.NewHTTPReader(
 		connector.HTTPClient().Client,

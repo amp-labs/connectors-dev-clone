@@ -7,7 +7,6 @@ import (
 
 	"github.com/amp-labs/connectors/common"
 	"github.com/amp-labs/connectors/internal/components"
-	"github.com/amp-labs/connectors/internal/datautils"
 )
 
 // Each object is read from GET /v1/{object}, named after its path.
@@ -25,8 +24,6 @@ var supportedObjects = []string{ // nolint:gochecknoglobals
 	"items",
 	"credit_notes",
 }
-
-var supportedObjectSet = datautils.NewSet(supportedObjects...) // nolint:gochecknoglobals
 
 // SupportedReadObjects lists the objects this connector reads.
 func SupportedReadObjects() []string {
