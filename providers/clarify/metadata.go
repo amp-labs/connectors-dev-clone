@@ -4,6 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"path"
+	"slices"
 	"strings"
 
 	"github.com/amp-labs/connectors/common"
@@ -12,7 +14,8 @@ import (
 	"github.com/amp-labs/connectors/internal/datautils"
 )
 
-// Schema ids end with the entity name, e.g. https://getclarify.ai/schemas/entities/person.
+// Object schemas have ids ending in `/entities/{object}`, e.g. https://getclarify.ai/schemas/entities/person.
+// The `/core/*` entries are base definitions those schemas build on.
 // https://developer.clarify.ai/docs/guides/schemas-and-relationships#schema-fields
 const entitySchemaMarker = "/entities/"
 
@@ -26,23 +29,24 @@ func (c *Connector) ListObjectMetadata(
 		return nil, common.ErrMissingObjects
 	}
 
-	result := common.NewListObjectMetadataResult()
-
 	schemas, err := c.fetchSchemas(ctx)
 	if err != nil {
 		return nil, err
 	}
 
+	result := common.NewListObjectMetadataResult()
+
 	for _, objectName := range datautils.NewSetFromList(objectNames).List() {
-		if !datautils.NewSetFromList(supportedObjects).Has(objectName) {
+		if !slices.Contains(supportedObjects, objectName) {
 			result.AppendError(objectName, common.ErrObjectNotSupported)
 
 			continue
 		}
 
-		schema, ok := schemas[schemaEntityName(objectName)]
+		schema, ok := schemas[objectName]
 		if !ok {
-			result.AppendError(objectName, fmt.Errorf("%w: no schema for %s", common.ErrMissingExpectedValues, objectName))
+			result.AppendError(objectName,
+				fmt.Errorf("%w: schema for %s", common.ErrMissingExpectedValues, objectName))
 
 			continue
 		}
@@ -53,23 +57,21 @@ func (c *Connector) ListObjectMetadata(
 	return result, nil
 }
 
-func schemaEntityName(objectName string) string {
-	if objectName == objectNameUsers {
-		return "user"
-	}
-
-	return objectName
-}
-
-// fetchSchemas reads every page of schemas, keyed by entity name.
+// fetchSchemas reads every page of schemas, keyed by object name.
 func (c *Connector) fetchSchemas(ctx context.Context) (map[string]entitySchema, error) {
 	schemasURL, err := urlbuilder.New(c.ProviderInfo().BaseURL, apiVersion, "workspaces", c.workspace, "schemas")
 	if err != nil {
 		return nil, err
 	}
 
+	requestURL, err := schemasURL.ToURL()
+	if err != nil {
+		return nil, err
+	}
+
 	schemas := make(map[string]entitySchema)
-	next := schemasURL.String()
+	nextPage := makeNextPageFunc(requestURL)
+	next := requestURL.String()
 
 	for next != "" {
 		response, err := c.JSONHTTPClient().Get(ctx, next)
@@ -87,14 +89,19 @@ func (c *Connector) fetchSchemas(ctx context.Context) (map[string]entitySchema, 
 		}
 
 		for _, resource := range page.Data {
-			if _, entity, ok := strings.Cut(resource.ID, entitySchemaMarker); ok {
-				schemas[entity] = resource.Attributes
+			if _, objectName, ok := strings.Cut(resource.ID, entitySchemaMarker); ok {
+				schemas[objectName] = resource.Attributes
 			}
 		}
 
-		next = ""
-		if page.Links.Next != nil {
-			next = *page.Links.Next
+		body, ok := response.Body()
+		if !ok {
+			return nil, common.ErrEmptyJSONHTTPResponse
+		}
+
+		next, err = nextPage(body)
+		if err != nil {
+			return nil, err
 		}
 	}
 
@@ -106,34 +113,31 @@ type schemasResponse struct {
 		ID         string       `json:"id"`
 		Attributes entitySchema `json:"attributes"`
 	} `json:"data"`
-	Links struct {
-		Next *string `json:"next"`
-	} `json:"links"`
 }
 
 type entitySchema struct {
-	Title         string `json:"title"`
 	XClarifyLabel struct {
-		Singular string `json:"singular"`
-		Plural   string `json:"plural"`
+		Plural string `json:"plural"`
 	} `json:"xClarifyLabel"`
 	Properties map[string]propertySchema `json:"properties"`
 }
 
 type propertySchema struct {
-	Type                 schemaType          `json:"type"`
-	Format               string              `json:"format"`
-	Title                string              `json:"title"`
-	Enum                 []any               `json:"enum"`
-	Items                *propertySchema     `json:"items"`
-	ReadOnly             *bool               `json:"readOnly"`
-	XClarifyRelationship *relationshipSchema `json:"xClarifyRelationship"`
+	Type                 schemaType                `json:"type"`
+	Format               string                    `json:"format"`
+	Title                string                    `json:"title"`
+	Enum                 []any                     `json:"enum"`
+	Ref                  string                    `json:"$ref"`
+	OneOf                []propertySchema          `json:"oneOf"`
+	Items                *propertySchema           `json:"items"`
+	Properties           map[string]propertySchema `json:"properties"`
+	ReadOnly             *bool                     `json:"readOnly"`
+	XClarifyRelationship *relationshipSchema       `json:"xClarifyRelationship"`
 }
 
 type relationshipSchema struct {
 	Kind   string `json:"kind"`
 	Entity string `json:"entity"`
-	Field  string `json:"field"`
 }
 
 // schemaType is a JSON Schema `type`: a single name or a list such as ["string", "null"].
@@ -157,7 +161,7 @@ func (t *schemaType) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-// primary is the type without "null".
+// primary is the first type other than "null".
 func (t schemaType) primary() string {
 	for _, name := range t {
 		if name != "null" {
@@ -176,7 +180,7 @@ func (s entitySchema) objectMetadata(objectName string) *common.ObjectMetadata {
 
 	metadata := common.NewObjectMetadata(displayName, common.FieldsMetadata{})
 
-	// Read adds the JSON:API resource id to every record.
+	// flattenRecord adds the JSON:API resource id to every record.
 	metadata.AddFieldMetadata("id", common.FieldMetadata{
 		DisplayName:  "ID",
 		ValueType:    common.ValueTypeString,
@@ -185,10 +189,27 @@ func (s entitySchema) objectMetadata(objectName string) *common.ObjectMetadata {
 	})
 
 	for name, property := range s.Properties {
+		if !property.isAttribute() {
+			continue
+		}
+
 		metadata.AddFieldMetadata(name, property.fieldMetadata(name))
 	}
 
 	return metadata
+}
+
+// isAttribute reports whether the property comes back in a resource's attributes.
+// One-to-many and many-to-many relationships (person.deals, company.people) are collections of ids that
+// the list endpoint returns only under `relationships` when requested with `include`, so they are left out.
+func (p propertySchema) isAttribute() bool {
+	if p.XClarifyRelationship == nil {
+		return true
+	}
+
+	kind := p.XClarifyRelationship.Kind
+
+	return kind == "many-to-one" || kind == "one-to-one"
 }
 
 func (p propertySchema) fieldMetadata(name string) common.FieldMetadata {
@@ -214,68 +235,79 @@ func (p propertySchema) fieldMetadata(name string) common.FieldMetadata {
 	return field
 }
 
+// providerType is the schema's format (date-time, uuid, markdown...), else its type, else the core
+// definition it references (personName, collectionOfEmails...).
 func (p propertySchema) providerType() string {
-	providerType := p.Type.primary()
 	if p.Format != "" {
-		providerType += "/" + p.Format
+		return p.Format
 	}
 
-	return providerType
+	if primary := p.Type.primary(); primary != "" {
+		return primary
+	}
+
+	for _, option := range p.OneOf {
+		if option.Ref != "" {
+			return path.Base(option.Ref)
+		}
+	}
+
+	return ""
 }
 
-// valueType maps a JSON Schema property to an Ampersand value type.
-// A many-to-one relationship holds one record id (e.g. person.company_id); other relationship
-// kinds hold several and stay other.
+// valueType maps a schema property to an Ampersand value type.
+// A many-to-one or one-to-one relationship holds a single record id; it is a reference when it
+// points to an object this connector reads, and a string id otherwise (e.g. meeting.public_link_id).
+// Collection fields are objects shaped {"items": [...]}; those whose items are enum values
+// (person.labels, user.roles) are multi-selects.
 func (p propertySchema) valueType() (common.ValueType, []common.FieldValue) {
 	if p.XClarifyRelationship != nil {
-		if p.XClarifyRelationship.Kind == "many-to-one" && p.XClarifyRelationship.Entity != "" {
+		if slices.Contains(supportedObjects, p.XClarifyRelationship.Entity) {
 			return common.ValueTypeReference, nil
 		}
 
-		return common.ValueTypeOther, nil
+		return common.ValueTypeString, nil
 	}
 
-	if len(p.Enum) != 0 {
-		return common.ValueTypeSingleSelect, enumValues(p.Enum)
+	switch p.Format {
+	case "date-time":
+		return common.ValueTypeDateTime, nil
+	case "date":
+		return common.ValueTypeDate, nil
+	}
+
+	if values := enumValues(p.Enum); len(values) != 0 {
+		return common.ValueTypeSingleSelect, values
+	}
+
+	if items, ok := p.Properties["items"]; ok && items.Items != nil {
+		if values := enumValues(items.Items.Enum); len(values) != 0 {
+			return common.ValueTypeMultiSelect, values
+		}
 	}
 
 	switch p.Type.primary() {
 	case "string":
-		switch p.Format {
-		case "date":
-			return common.ValueTypeDate, nil
-		case "date-time":
-			return common.ValueTypeDateTime, nil
-		default:
-			return common.ValueTypeString, nil
-		}
+		return common.ValueTypeString, nil
 	case "integer":
 		return common.ValueTypeInt, nil
 	case "number":
 		return common.ValueTypeFloat, nil
 	case "boolean":
 		return common.ValueTypeBoolean, nil
-	case "array":
-		if p.Items != nil && len(p.Items.Enum) != 0 {
-			return common.ValueTypeMultiSelect, enumValues(p.Items.Enum)
-		}
-
-		return common.ValueTypeOther, nil
 	default:
 		return common.ValueTypeOther, nil
 	}
 }
 
+// enumValues lists the options of an enum; null, which marks the field as clearable, is not an option.
 func enumValues(enum []any) []common.FieldValue {
 	values := make([]common.FieldValue, 0, len(enum))
 
 	for _, value := range enum {
-		text, ok := value.(string)
-		if !ok {
-			continue
+		if text, ok := value.(string); ok {
+			values = append(values, common.FieldValue{Value: text, DisplayValue: text})
 		}
-
-		values = append(values, common.FieldValue{Value: text, DisplayValue: text})
 	}
 
 	return values

@@ -20,10 +20,9 @@ const (
 	pageLimitParam  = "page[limit]"
 	pageOffsetParam = "page[offset]"
 
-	// Datetime filters name the operator in a second bracket. The operators match ReadParams:
-	// Since is exclusive and Until inclusive.
+	// Datetime filters name the operator in a second bracket.
 	// https://developer.clarify.ai/docs/api-basics/filtering#operators-by-field-type
-	updatedSinceParam = "filter[_updated_at][Is after]"
+	updatedSinceParam = "filter[_updated_at][Is on or after]"
 	updatedUntilParam = "filter[_updated_at][Is on or before]"
 )
 
@@ -41,14 +40,19 @@ func (c *Connector) buildReadRequest(ctx context.Context, params common.ReadPara
 	return http.NewRequestWithContext(ctx, http.MethodGet, readURL, nil)
 }
 
-// readURL starts at offset 0. Later pages follow `links.next`, which Clarify percent-encodes
-// with every query parameter (filters included) and asks callers to fetch verbatim.
+// readURL lists GET /v1/workspaces/{workspace}/objects/{object}/resources from offset 0.
+// Later pages come from `links.next` (see makeNextPageFunc), which carries every query parameter.
+//
+// Since and Until are sent with inclusive operators. The docs show datetime filters only with
+// whole dates and do not say whether a timestamp is compared at full precision, so the server
+// filter narrows the result and parseReadResponse applies the exact (Since, Until] window.
 func (c *Connector) readURL(params common.ReadParams) (string, error) {
 	if params.NextPage != "" {
 		return params.NextPage.String(), nil
 	}
 
-	readURL, err := urlbuilder.New(c.ProviderInfo().BaseURL, c.readPath(params.ObjectName)...)
+	readURL, err := urlbuilder.New(c.ProviderInfo().BaseURL,
+		apiVersion, "workspaces", c.workspace, "objects", params.ObjectName, "resources")
 	if err != nil {
 		return "", err
 	}
@@ -58,28 +62,15 @@ func (c *Connector) readURL(params common.ReadParams) (string, error) {
 		strconv.Itoa(min(readhelper.PageSizeWithDefault(params, maxPageSize), maxPageSize)))
 	readURL.WithQueryParam(pageOffsetParam, "0")
 
-	// _updated_at has millisecond precision, so the bounds keep milliseconds.
-	if resourceObjects.Has(params.ObjectName) {
-		if !params.Since.IsZero() {
-			readURL.WithQueryParam(updatedSinceParam, datautils.Time.FormatRFC3339inUTCWithMilliseconds(params.Since))
-		}
+	if !params.Since.IsZero() {
+		readURL.WithQueryParam(updatedSinceParam, datautils.Time.FormatRFC3339inUTCWithMilliseconds(params.Since))
+	}
 
-		if !params.Until.IsZero() {
-			readURL.WithQueryParam(updatedUntilParam, datautils.Time.FormatRFC3339inUTCWithMilliseconds(params.Until))
-		}
+	if !params.Until.IsZero() {
+		readURL.WithQueryParam(updatedUntilParam, datautils.Time.FormatRFC3339inUTCWithMilliseconds(params.Until))
 	}
 
 	return readURL.String(), nil
-}
-
-// readPath is the path under the base URL:
-// /v1/workspaces/{workspace}/objects/{object}/resources for records, /v1/workspaces/{workspace}/users for users.
-func (c *Connector) readPath(objectName string) []string {
-	if objectName == objectNameUsers {
-		return []string{apiVersion, "workspaces", c.workspace, "users"}
-	}
-
-	return []string{apiVersion, "workspaces", c.workspace, "objects", objectName, "resources"}
 }
 
 func (c *Connector) parseReadResponse(
@@ -88,14 +79,9 @@ func (c *Connector) parseReadResponse(
 	request *http.Request,
 	response *common.JSONHTTPResponse,
 ) (*common.ReadResult, error) {
-	filter := readhelper.MakeIdentityFilterFunc(getNextRecordsURL)
-	if !resourceObjects.Has(params.ObjectName) {
-		filter = makeUpdatedAtFilter(getNextRecordsURL)
-	}
-
 	return common.ParseResultFiltered(params, response,
 		common.MakeRecordsFunc("data"),
-		filter,
+		makeUpdatedAtFilter(makeNextPageFunc(request.URL)),
 		readhelper.MakeMarshaledDataFuncWithId(flattenRecord, readhelper.NewIdField("id")),
 		params.Fields,
 	)
