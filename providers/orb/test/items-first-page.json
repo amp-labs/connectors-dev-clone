@@ -1,0 +1,24 @@
+{
+  "data": [
+    {
+      "id": "QAhcSngCq7Z4YdAw",
+      "name": "claude-grouppool-cr-20261014221700-item",
+      "metadata": {},
+      "created_at": "2026-10-14T22:17:01+00:00",
+      "archived_at": "2026-10-14T22:21:02+00:00",
+      "external_connections": []
+    },
+    {
+      "id": "6DGVHzasyVGJQs5K",
+      "name": "claude-grouppool-cr-20261014221650-item",
+      "metadata": {},
+      "created_at": "2026-10-14T22:16:50+00:00",
+      "archived_at": "2026-10-14T22:21:02+00:00",
+      "external_connections": []
+    }
+  ],
+  "pagination_metadata": {
+    "has_more": true,
+    "next_cursor": "8HJbXEQ8NixZLxHx"
+  }
+}

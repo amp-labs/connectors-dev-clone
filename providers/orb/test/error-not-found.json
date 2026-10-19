@@ -1,0 +1,6 @@
+{
+    "detail": "Could not find a resource of type Plan with identifier: DBhwNcMNfYgeBpn.",
+    "status": 404,
+    "title": "A specified resource was not found.",
+    "type": "https://docs.withorb.com/reference/error-responses#404-resource-not-found"
+}
