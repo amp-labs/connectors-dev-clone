@@ -1,0 +1,79 @@
+{
+  "data": [
+    {
+      "id": "eN3gvMFjPt5FjLbc",
+      "name": "11x",
+      "email": "11x@11x.ai",
+      "tax_id": null,
+      "balance": "0.00",
+      "currency": null,
+      "metadata": {},
+      "timezone": "Etc/UTC",
+      "hierarchy": {
+        "parent": null,
+        "children": []
+      },
+      "created_at": "2026-10-16T13:49:57+00:00",
+      "portal_url": "https://portal.withorb.com/view?token=IkRkOW5qejl0RzNGNDZ3cTci.WGo6Lb9PwdBhTmjfzY4ZWo0x424",
+      "auto_issuance": false,
+      "email_delivery": true,
+      "auto_collection": false,
+      "billing_address": null,
+      "payment_provider": null,
+      "shipping_address": null,
+      "additional_emails": [],
+      "payment_provider_id": null,
+      "external_customer_id": null,
+      "automatic_tax_enabled": true,
+      "payment_configuration": null,
+      "default_payment_method": null,
+      "reporting_configuration": null,
+      "exempt_from_automated_tax": false,
+      "accounting_sync_configuration": {
+        "excluded": false,
+        "accounting_providers": []
+      }
+    },
+    {
+      "id": "NLGwoEaecJENHwSF",
+      "name": "staging-probe",
+      "email": "noemail.53939f75-7988-4855-beab-22b5ecceba43@withampersand.com",
+      "tax_id": null,
+      "balance": "0.00",
+      "currency": null,
+      "metadata": {
+        "org_id": "d3042918-77df-442e-b3a8-42d5a427741d",
+        "billing_account_id": "53939f75-7988-4855-beab-22b5ecceba43"
+      },
+      "timezone": "Etc/UTC",
+      "hierarchy": {
+        "parent": null,
+        "children": []
+      },
+      "created_at": "2026-10-14T05:41:32+00:00",
+      "portal_url": "https://portal.withorb.com/view?token=IkhFZDNzWFdzUGI3MmNqTmsi.4qO8H5vSUilMPkzvtHQo8OnZ-kQ",
+      "auto_issuance": false,
+      "email_delivery": true,
+      "auto_collection": false,
+      "billing_address": null,
+      "payment_provider": null,
+      "shipping_address": null,
+      "additional_emails": [],
+      "payment_provider_id": null,
+      "external_customer_id": "53939f75-7988-4855-beab-22b5ecceba43",
+      "automatic_tax_enabled": true,
+      "payment_configuration": null,
+      "default_payment_method": null,
+      "reporting_configuration": null,
+      "exempt_from_automated_tax": false,
+      "accounting_sync_configuration": {
+        "excluded": false,
+        "accounting_providers": []
+      }
+    }
+  ],
+  "pagination_metadata": {
+    "has_more": true,
+    "next_cursor": "cwYu8K4RUVLjNJLn"
+  }
+}
