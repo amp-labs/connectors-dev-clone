@@ -1,0 +1,29 @@
+{
+  "links": {
+    "next": null
+  },
+  "data": [
+    {
+      "id": "https://getclarify.ai/schemas/entities/deal",
+      "type": "schema",
+      "attributes": {
+        "$id": "https://getclarify.ai/schemas/entities/deal",
+        "title": "Deal",
+        "type": "object",
+        "xClarifyLabel": {
+          "singular": "Deal",
+          "plural": "Deals"
+        },
+        "properties": {
+          "amount": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "title": "Amount"
+          }
+        }
+      }
+    }
+  ]
+}
