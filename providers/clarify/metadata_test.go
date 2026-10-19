@@ -16,6 +16,8 @@ func TestListObjectMetadata(t *testing.T) { // nolint:funlen
 	t.Parallel()
 
 	responseSchemas := testutils.DataFromFile(t, "schemas.json")
+	responseSchemasFirstPage := testutils.DataFromFile(t, "schemas-first-page.json")
+	responseSchemasLastPage := testutils.DataFromFile(t, "schemas-last-page.json")
 	responseUnauthorized := testutils.DataFromFile(t, "error-unauthorized.json")
 
 	schemasServer := func() *mockserver.Conditional {
@@ -183,6 +185,54 @@ func TestListObjectMetadata(t *testing.T) { // nolint:funlen
 				Errors: map[string]error{
 					"task": mockutils.ExpectedSubsetErrors{common.ErrMissingExpectedValues},
 				},
+			},
+		},
+		{
+			// The first page's links.next is http://api.clarify.ai/...; the second request must reach
+			// the test server, on the first request's scheme and host.
+			Name:  "Schemas are read across pages",
+			Input: []string{"person", "deal"},
+			Server: mockserver.Switch{
+				Setup: mockserver.ContentJSON(),
+				Cases: []mockserver.Case{{
+					If: mockcond.And{
+						mockcond.Path("/v1/workspaces/acme/schemas"),
+						mockcond.QueryParam("page[cursor]", "c2NoZW1hczI"),
+					},
+					Then: mockserver.Response(http.StatusOK, responseSchemasLastPage),
+				}, {
+					If: mockcond.And{
+						mockcond.Path("/v1/workspaces/acme/schemas"),
+						mockcond.QueryParamsMissing("page[cursor]"),
+					},
+					Then: mockserver.Response(http.StatusOK, responseSchemasFirstPage),
+				}},
+			}.Server(),
+			Comparator: testconn.ComparatorSubsetMetadata,
+			Expected: &common.ListObjectMetadataResult{
+				Result: map[string]common.ObjectMetadata{
+					"person": {
+						DisplayName: "People",
+						Fields: map[string]common.FieldMetadata{
+							"job_title": {
+								DisplayName:  "Job Title",
+								ValueType:    common.ValueTypeString,
+								ProviderType: "string",
+							},
+						},
+					},
+					"deal": {
+						DisplayName: "Deals",
+						Fields: map[string]common.FieldMetadata{
+							"amount": {
+								DisplayName:  "Amount",
+								ValueType:    common.ValueTypeFloat,
+								ProviderType: "number",
+							},
+						},
+					},
+				},
+				Errors: map[string]error{},
 			},
 		},
 		{

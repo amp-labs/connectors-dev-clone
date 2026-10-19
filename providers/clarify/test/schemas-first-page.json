@@ -1,0 +1,29 @@
+{
+  "links": {
+    "next": "http://api.clarify.ai/v1/workspaces/acme/schemas?page%5Bcursor%5D=c2NoZW1hczI"
+  },
+  "data": [
+    {
+      "id": "https://getclarify.ai/schemas/entities/person",
+      "type": "schema",
+      "attributes": {
+        "$id": "https://getclarify.ai/schemas/entities/person",
+        "title": "Person",
+        "type": "object",
+        "xClarifyLabel": {
+          "singular": "Person",
+          "plural": "People"
+        },
+        "properties": {
+          "job_title": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "title": "Job Title"
+          }
+        }
+      }
+    }
+  ]
+}

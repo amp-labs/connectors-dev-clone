@@ -9,10 +9,8 @@ import (
 	"github.com/spyzhov/ajson"
 )
 
-// makeNextRecordsURL returns `links.next`, which is null on the last page, moved onto the scheme
-// and host of the request that returned it. The live API returns these links as `http://`,
-// although the docs show `https://`, and port 80 does not answer. Path and query are kept as they
-// are: they carry the page and filter parameters.
+// makeNextRecordsURL returns `links.next`, which is null on the last page, on the scheme and host
+// of the request that returned it (see onRequestOrigin).
 // https://developer.clarify.ai/docs/api-basics/pagination#response
 func makeNextRecordsURL(requestURL *url.URL) common.NextPageFunc {
 	return func(node *ajson.Node) (string, error) {
@@ -21,16 +19,23 @@ func makeNextRecordsURL(requestURL *url.URL) common.NextPageFunc {
 			return "", err
 		}
 
-		nextURL, err := url.Parse(next)
-		if err != nil {
-			return "", fmt.Errorf("invalid links.next %q: %w", next, err)
-		}
-
-		nextURL.Scheme = requestURL.Scheme
-		nextURL.Host = requestURL.Host
-
-		return nextURL.String(), nil
+		return onRequestOrigin(next, requestURL)
 	}
+}
+
+// onRequestOrigin moves a `links.next` URL onto the scheme and host of the request that returned
+// it. The live API returns these links as `http://`, although the docs show `https://`, and port 80
+// does not answer. Path and query are kept as they are: they carry the page and filter parameters.
+func onRequestOrigin(next string, requestURL *url.URL) (string, error) {
+	nextURL, err := url.Parse(next)
+	if err != nil {
+		return "", fmt.Errorf("invalid links.next %q: %w", next, err)
+	}
+
+	nextURL.Scheme = requestURL.Scheme
+	nextURL.Host = requestURL.Host
+
+	return nextURL.String(), nil
 }
 
 // flattenRecord turns a JSON:API resource into flat fields:

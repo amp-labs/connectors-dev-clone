@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"maps"
+	"net/url"
 	"strings"
 
 	"github.com/amp-labs/connectors/common"
@@ -72,8 +73,14 @@ func (c *Connector) listObjectMetadata(
 }
 
 // fetchSchemas reads every schema page and indexes the entity schemas by object name.
+// The list is cursor-paginated through `links.next`.
 func (c *Connector) fetchSchemas(ctx context.Context) (map[string]entitySchema, error) {
 	schemasURL, err := c.workspaceURL("schemas")
+	if err != nil {
+		return nil, err
+	}
+
+	requestURL, err := schemasURL.ToURL()
 	if err != nil {
 		return nil, err
 	}
@@ -81,18 +88,9 @@ func (c *Connector) fetchSchemas(ctx context.Context) (map[string]entitySchema, 
 	schemas := make(map[string]entitySchema)
 
 	for next := schemasURL.String(); next != ""; {
-		response, err := c.JSONHTTPClient().Get(ctx, next)
+		page, err := c.fetchSchemasPage(ctx, next)
 		if err != nil {
 			return nil, err
-		}
-
-		page, err := common.UnmarshalJSON[schemasResponse](response)
-		if err != nil {
-			return nil, err
-		}
-
-		if page == nil {
-			return nil, common.ErrEmptyJSONHTTPResponse
 		}
 
 		for _, resource := range page.Data {
@@ -101,13 +99,41 @@ func (c *Connector) fetchSchemas(ctx context.Context) (map[string]entitySchema, 
 			}
 		}
 
-		next = ""
-		if page.Links.Next != nil {
-			next = *page.Links.Next
+		next, err = page.nextURL(requestURL)
+		if err != nil {
+			return nil, err
 		}
 	}
 
 	return schemas, nil
+}
+
+func (c *Connector) fetchSchemasPage(ctx context.Context, pageURL string) (*schemasResponse, error) {
+	response, err := c.JSONHTTPClient().Get(ctx, pageURL)
+	if err != nil {
+		return nil, err
+	}
+
+	page, err := common.UnmarshalJSON[schemasResponse](response)
+	if err != nil {
+		return nil, err
+	}
+
+	if page == nil {
+		return nil, common.ErrEmptyJSONHTTPResponse
+	}
+
+	return page, nil
+}
+
+// nextURL is the page's `links.next` on the scheme and host of the first request, or empty on the
+// last page.
+func (r schemasResponse) nextURL(requestURL *url.URL) (string, error) {
+	if r.Links.Next == nil || *r.Links.Next == "" {
+		return "", nil
+	}
+
+	return onRequestOrigin(*r.Links.Next, requestURL)
 }
 
 func entityName(schemaID string) (string, bool) {
