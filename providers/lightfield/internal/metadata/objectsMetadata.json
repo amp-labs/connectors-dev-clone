@@ -104,9 +104,65 @@
       }
     }
   },
+  "notes": {
+    "path": "/v1/notes",
+    "displayName": "Notes",
+    "fields": {
+      "createdAt": {
+        "displayName": "Created At",
+        "valueType": "datetime",
+        "providerType": "string"
+      },
+      "externalId": {
+        "displayName": "External Id",
+        "valueType": "string"
+      },
+      "httpLink": {
+        "displayName": "Http Link",
+        "valueType": "string"
+      },
+      "id": {
+        "displayName": "Id",
+        "valueType": "string",
+        "providerType": "string"
+      },
+      "updatedAt": {
+        "displayName": "Updated At",
+        "valueType": "datetime"
+      }
+    }
+  },
   "opportunities": {
     "path": "/v1/opportunities",
     "displayName": "Opportunities",
+    "fields": {
+      "createdAt": {
+        "displayName": "Created At",
+        "valueType": "datetime",
+        "providerType": "string"
+      },
+      "externalId": {
+        "displayName": "External Id",
+        "valueType": "string"
+      },
+      "httpLink": {
+        "displayName": "Http Link",
+        "valueType": "string"
+      },
+      "id": {
+        "displayName": "Id",
+        "valueType": "string",
+        "providerType": "string"
+      },
+      "updatedAt": {
+        "displayName": "Updated At",
+        "valueType": "datetime"
+      }
+    }
+  },
+  "tasks": {
+    "path": "/v1/tasks",
+    "displayName": "Tasks",
     "fields": {
       "createdAt": {
         "displayName": "Created At",

@@ -16,6 +16,8 @@ const (
 	objectNameOpportunities = "opportunities"
 	// Workspace members (GET /v1/members); the customer's "users".
 	objectNameMembers = "members"
+	objectNameNotes   = "notes"
+	objectNameTasks   = "tasks"
 )
 
 var supportedObjects = []string{ // nolint:gochecknoglobals
@@ -23,14 +25,21 @@ var supportedObjects = []string{ // nolint:gochecknoglobals
 	objectNameContacts,
 	objectNameOpportunities,
 	objectNameMembers,
+	objectNameNotes,
+	objectNameTasks,
 }
 
 // Objects that expose GET /v1/{object}/definitions.
 // https://docs.lightfield.app/using-the-api/fields-and-relationships#supported-object-types
+// That table omits notes and tasks, which have their own definitions methods:
+// https://docs.lightfield.app/api/resources/note/methods/definitions
+// https://docs.lightfield.app/api/resources/task/methods/definitions
 var objectsWithDefinitions = datautils.NewSet( // nolint:gochecknoglobals
 	objectNameAccounts,
 	objectNameContacts,
 	objectNameOpportunities,
+	objectNameNotes,
+	objectNameTasks,
 )
 
 // Objects whose list endpoint filters on `$updatedAt[greaterThan|lessThan]`.
@@ -40,6 +49,8 @@ var objectsWithUpdatedAtFilter = datautils.NewSet( // nolint:gochecknoglobals
 	objectNameAccounts,
 	objectNameContacts,
 	objectNameOpportunities,
+	objectNameNotes,
+	objectNameTasks,
 )
 
 // SupportedReadObjects lists the objects this connector reads.

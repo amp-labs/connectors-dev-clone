@@ -37,6 +37,8 @@ func main() {
 		"/v1/contacts",
 		"/v1/opportunities",
 		"/v1/members",
+		"/v1/notes",
+		"/v1/tasks",
 	)
 
 	pipe := pipeline.NewSchemaPipe(getSchemas).

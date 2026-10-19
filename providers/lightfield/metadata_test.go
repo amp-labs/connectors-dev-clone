@@ -27,13 +27,13 @@ func TestListObjectMetadata(t *testing.T) { // nolint:funlen
 		},
 		{
 			Name:       "Unknown object is reported per object",
-			Input:      []string{"notes"},
+			Input:      []string{"meetings"},
 			Server:     mockserver.Dummy(),
 			Comparator: testconn.ComparatorSubsetMetadata,
 			Expected: &common.ListObjectMetadataResult{
 				Result: map[string]common.ObjectMetadata{},
 				Errors: map[string]error{
-					"notes": mockutils.ExpectedSubsetErrors{common.ErrObjectNotSupported},
+					"meetings": mockutils.ExpectedSubsetErrors{common.ErrObjectNotSupported},
 				},
 			},
 		},

@@ -39,7 +39,7 @@ func TestRead(t *testing.T) { //nolint:funlen,maintidx
 		},
 		{
 			Name:         "Unknown object is not supported",
-			Input:        common.ReadParams{ObjectName: "notes", Fields: connectors.Fields("id")},
+			Input:        common.ReadParams{ObjectName: "meetings", Fields: connectors.Fields("id")},
 			Server:       mockserver.Dummy(),
 			ExpectedErrs: []error{common.ErrOperationNotSupportedForObject},
 		},
