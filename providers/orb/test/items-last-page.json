@@ -1,0 +1,312 @@
+{
+  "data": [
+    {
+      "id": "QAhcSngCq7Z4YdAw",
+      "name": "claude-grouppool-cr-20261014221700-item",
+      "metadata": {},
+      "created_at": "2026-10-14T22:17:01+00:00",
+      "archived_at": "2026-10-14T22:21:02+00:00",
+      "external_connections": []
+    },
+    {
+      "id": "6DGVHzasyVGJQs5K",
+      "name": "claude-grouppool-cr-20261014221650-item",
+      "metadata": {},
+      "created_at": "2026-10-14T22:16:50+00:00",
+      "archived_at": "2026-10-14T22:21:02+00:00",
+      "external_connections": []
+    },
+    {
+      "id": "8HJbXEQ8NixZLxHx",
+      "name": "claude-grouppool-wo-20261014214429-item",
+      "metadata": {},
+      "created_at": "2026-10-14T21:44:30+00:00",
+      "archived_at": "2026-10-14T22:21:03+00:00",
+      "external_connections": []
+    },
+    {
+      "id": "WNCc2Q5TJentgPBY",
+      "name": "claude-grouppool-20261014214331-item",
+      "metadata": {},
+      "created_at": "2026-10-14T21:43:32+00:00",
+      "archived_at": "2026-10-14T22:21:03+00:00",
+      "external_connections": []
+    },
+    {
+      "id": "c2m2M5jEQrw5ndJi",
+      "name": "claude-grouppool-20261014214324-item",
+      "metadata": {},
+      "created_at": "2026-10-14T21:43:25+00:00",
+      "archived_at": "2026-10-14T22:21:03+00:00",
+      "external_connections": []
+    },
+    {
+      "id": "PEeEMiz5RbMZmrzd",
+      "name": "claude-grouppool-20261014214316-item",
+      "metadata": {},
+      "created_at": "2026-10-14T21:43:16+00:00",
+      "archived_at": "2026-10-14T22:21:04+00:00",
+      "external_connections": []
+    },
+    {
+      "id": "Tkbo4D7JrUGCwZuf",
+      "name": "claude-grouppool-20261014214253-item",
+      "metadata": {},
+      "created_at": "2026-10-14T21:42:53+00:00",
+      "archived_at": "2026-10-14T22:21:04+00:00",
+      "external_connections": []
+    },
+    {
+      "id": "B5teGANGLbZCLXRe",
+      "name": "claude-grouppool-20261014214240-item",
+      "metadata": {},
+      "created_at": "2026-10-14T21:42:41+00:00",
+      "archived_at": "2026-10-14T22:21:04+00:00",
+      "external_connections": []
+    },
+    {
+      "id": "VorVxqNtg3mpD428",
+      "name": "groups-peak-test-pack-20261013230810",
+      "metadata": {},
+      "created_at": "2026-10-13T23:08:11+00:00",
+      "archived_at": "2026-10-13T23:10:07+00:00",
+      "external_connections": []
+    },
+    {
+      "id": "MGCJHXc3MUtD6gxN",
+      "name": "groups-peak-test-platform-20261013230810",
+      "metadata": {},
+      "created_at": "2026-10-13T23:08:11+00:00",
+      "archived_at": "2026-10-13T23:10:07+00:00",
+      "external_connections": []
+    },
+    {
+      "id": "nY8im8EFzG23rPev",
+      "name": "groups-peak-test-groups-20261013230810",
+      "metadata": {},
+      "created_at": "2026-10-13T23:08:11+00:00",
+      "archived_at": "2026-10-13T23:10:06+00:00",
+      "external_connections": []
+    },
+    {
+      "id": "9a7XGhdFzxgJZijS",
+      "name": "groups-peak-test-pack-20261013230214",
+      "metadata": {},
+      "created_at": "2026-10-13T23:02:15+00:00",
+      "archived_at": "2026-10-13T23:07:51+00:00",
+      "external_connections": []
+    },
+    {
+      "id": "g44ESZS7gL5PBLrN",
+      "name": "groups-peak-test-platform-20261013230214",
+      "metadata": {},
+      "created_at": "2026-10-13T23:02:15+00:00",
+      "archived_at": "2026-10-13T23:07:50+00:00",
+      "external_connections": []
+    },
+    {
+      "id": "KGgXuNbDLNUYANfL",
+      "name": "groups-peak-test-groups-20261013230214",
+      "metadata": {},
+      "created_at": "2026-10-13T23:02:14+00:00",
+      "archived_at": "2026-10-13T23:07:50+00:00",
+      "external_connections": []
+    },
+    {
+      "id": "ktDB3rZ6Ck2Rpsjb",
+      "name": "groups-peak-test-pack-20261013224613",
+      "metadata": {},
+      "created_at": "2026-10-13T22:46:14+00:00",
+      "archived_at": "2026-10-13T23:01:32+00:00",
+      "external_connections": []
+    },
+    {
+      "id": "WA69PCK9iV8ninKb",
+      "name": "groups-peak-test-platform-20261013224613",
+      "metadata": {},
+      "created_at": "2026-10-13T22:46:14+00:00",
+      "archived_at": "2026-10-13T23:01:32+00:00",
+      "external_connections": []
+    },
+    {
+      "id": "SpY6MwAX8DWb5fLF",
+      "name": "groups-peak-test-groups-20261013224613",
+      "metadata": {},
+      "created_at": "2026-10-13T22:46:14+00:00",
+      "archived_at": "2026-10-13T23:01:32+00:00",
+      "external_connections": []
+    },
+    {
+      "id": "kbtPHrRiJjeXx79x",
+      "name": "groups-peak-test-item-20261013221048",
+      "metadata": {},
+      "created_at": "2026-10-13T22:10:48+00:00",
+      "archived_at": "2026-10-13T22:13:55+00:00",
+      "external_connections": []
+    },
+    {
+      "id": "nvBm7fNuSmWLw4FQ",
+      "name": "groups-peak-test-item-20261013220936",
+      "metadata": {},
+      "created_at": "2026-10-13T22:09:37+00:00",
+      "archived_at": "2026-10-13T22:13:55+00:00",
+      "external_connections": []
+    },
+    {
+      "id": "euqcKwdZF8nx6PU4",
+      "name": "AWS on prem",
+      "metadata": {},
+      "created_at": "2026-09-10T00:55:36+00:00",
+      "archived_at": null,
+      "external_connections": []
+    },
+    {
+      "id": "BtEP47AsY2ufVAWL",
+      "name": "Total services",
+      "metadata": {},
+      "created_at": "2026-03-09T19:05:22+00:00",
+      "archived_at": null,
+      "external_connections": []
+    },
+    {
+      "id": "XRn4t2Lox2dvQs78",
+      "name": "Action credits",
+      "metadata": {},
+      "created_at": "2026-03-02T16:22:01+00:00",
+      "archived_at": null,
+      "external_connections": []
+    },
+    {
+      "id": "Q3Kmb3VHFFHXurP9",
+      "name": "Custom integrations",
+      "metadata": {},
+      "created_at": "2026-03-02T16:19:06+00:00",
+      "archived_at": null,
+      "external_connections": []
+    },
+    {
+      "id": "cyih327EPYd2DJDs",
+      "name": "Proxy action",
+      "metadata": {},
+      "created_at": "2026-03-02T16:10:05+00:00",
+      "archived_at": null,
+      "external_connections": []
+    },
+    {
+      "id": "Mjo7wxkxgmKoiCAU",
+      "name": "Write action",
+      "metadata": {},
+      "created_at": "2026-03-02T16:10:00+00:00",
+      "archived_at": null,
+      "external_connections": []
+    },
+    {
+      "id": "4dzwqpZ8vNqQnpR4",
+      "name": "Read action",
+      "metadata": {},
+      "created_at": "2026-03-02T16:09:56+00:00",
+      "archived_at": null,
+      "external_connections": []
+    },
+    {
+      "id": "oTRBmwMYhkJexMEw",
+      "name": "Users",
+      "metadata": {},
+      "created_at": "2025-09-25T15:39:19+00:00",
+      "archived_at": null,
+      "external_connections": []
+    },
+    {
+      "id": "ShZiGGAkJy2sy4FF",
+      "name": "Enterprise Implementation & Integration",
+      "metadata": {},
+      "created_at": "2025-09-25T15:39:14+00:00",
+      "archived_at": null,
+      "external_connections": []
+    },
+    {
+      "id": "Fvmv3e59t76nCGrB",
+      "name": "API & Data Processing Subscription",
+      "metadata": {},
+      "created_at": "2025-09-25T15:39:09+00:00",
+      "archived_at": null,
+      "external_connections": []
+    },
+    {
+      "id": "Bq6UUTGgJzfuvqFY",
+      "name": "API Calls",
+      "metadata": {},
+      "created_at": "2025-09-25T15:39:03+00:00",
+      "archived_at": null,
+      "external_connections": []
+    },
+    {
+      "id": "ju9DntmHg9Lq8Erg",
+      "name": "Data Storage",
+      "metadata": {},
+      "created_at": "2025-09-25T15:38:58+00:00",
+      "archived_at": null,
+      "external_connections": []
+    },
+    {
+      "id": "DB2EM2ibmjnXrW8o",
+      "name": "Premium Support & Success Package",
+      "metadata": {},
+      "created_at": "2025-09-25T15:38:52+00:00",
+      "archived_at": null,
+      "external_connections": []
+    },
+    {
+      "id": "gp3LFVWJSxhJwBFh",
+      "name": "Vertex Analytics Platform License",
+      "metadata": {},
+      "created_at": "2025-09-25T15:38:47+00:00",
+      "archived_at": null,
+      "external_connections": []
+    },
+    {
+      "id": "CGkirRtVhDBkFMrB",
+      "name": "Included Allocation (GB)",
+      "metadata": {},
+      "created_at": "2025-09-25T15:24:45+00:00",
+      "archived_at": null,
+      "external_connections": []
+    },
+    {
+      "id": "c6NZVR2k6gALW54v",
+      "name": "GB Used",
+      "metadata": {},
+      "created_at": "2025-09-24T13:51:41+00:00",
+      "archived_at": null,
+      "external_connections": []
+    },
+    {
+      "id": "Xznuy2P4KUNSCuy2",
+      "name": "Premium Support",
+      "metadata": {},
+      "created_at": "2025-09-24T13:50:10+00:00",
+      "archived_at": null,
+      "external_connections": []
+    },
+    {
+      "id": "Fe92wu9GkMj8k3XB",
+      "name": "AppExchange Fee",
+      "metadata": {},
+      "created_at": "2025-09-24T13:50:10+00:00",
+      "archived_at": null,
+      "external_connections": []
+    },
+    {
+      "id": "46Jo9zFvaPQrti6J",
+      "name": "Enterprise Platform Fee",
+      "metadata": {},
+      "created_at": "2025-09-24T13:50:10+00:00",
+      "archived_at": null,
+      "external_connections": []
+    }
+  ],
+  "pagination_metadata": {
+    "has_more": false,
+    "next_cursor": null
+  }
+}

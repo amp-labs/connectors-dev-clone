@@ -1,0 +1,82 @@
+{
+  "data": [
+    {
+      "id": "cwYu8K4RUVLjNJLn",
+      "name": "dev-probe",
+      "email": "noemail.1b3d71da-3d31-4e63-853a-8db6bff98e95@withampersand.com",
+      "tax_id": null,
+      "balance": "0.00",
+      "currency": null,
+      "metadata": {
+        "org_id": "31515299-b3a5-4822-a4a3-37384966c03e",
+        "billing_account_id": "1b3d71da-3d31-4e63-853a-8db6bff98e95"
+      },
+      "timezone": "Etc/UTC",
+      "hierarchy": {
+        "parent": null,
+        "children": []
+      },
+      "created_at": "2026-10-14T05:41:28+00:00",
+      "portal_url": "https://portal.withorb.com/view?token=ImdaRUMzMkFWa25ydkw0WHQi.yTLTR9zGukHx66tDVXt438CyqCM",
+      "auto_issuance": false,
+      "email_delivery": true,
+      "auto_collection": false,
+      "billing_address": null,
+      "payment_provider": null,
+      "shipping_address": null,
+      "additional_emails": [],
+      "payment_provider_id": null,
+      "external_customer_id": "1b3d71da-3d31-4e63-853a-8db6bff98e95",
+      "automatic_tax_enabled": true,
+      "payment_configuration": null,
+      "default_payment_method": null,
+      "reporting_configuration": null,
+      "exempt_from_automated_tax": false,
+      "accounting_sync_configuration": {
+        "excluded": false,
+        "accounting_providers": []
+      }
+    },
+    {
+      "id": "Ta6iGU8sBznEAPPV",
+      "name": "Lauren Inc.",
+      "email": "laurenzlong@gmail.com",
+      "tax_id": null,
+      "balance": "0.00",
+      "currency": null,
+      "metadata": {
+        "org_id": "2841548b-0fd4-4be3-b77f-ce5d5e4eb827",
+        "billing_account_id": "87321349-357f-4031-884c-605a7fc63fa2"
+      },
+      "timezone": "Etc/UTC",
+      "hierarchy": {
+        "parent": null,
+        "children": []
+      },
+      "created_at": "2026-09-25T05:56:48+00:00",
+      "portal_url": "https://portal.withorb.com/view?token=IkZ5Wm9WSnJzQ2ZmREVtcTki.9uRL473HJzhVCkpJPCTpxx5aQmM",
+      "auto_issuance": false,
+      "email_delivery": true,
+      "auto_collection": false,
+      "billing_address": null,
+      "payment_provider": null,
+      "shipping_address": null,
+      "additional_emails": [],
+      "payment_provider_id": null,
+      "external_customer_id": "87321349-357f-4031-884c-605a7fc63fa2",
+      "automatic_tax_enabled": true,
+      "payment_configuration": null,
+      "default_payment_method": null,
+      "reporting_configuration": null,
+      "exempt_from_automated_tax": false,
+      "accounting_sync_configuration": {
+        "excluded": false,
+        "accounting_providers": []
+      }
+    }
+  ],
+  "pagination_metadata": {
+    "has_more": true,
+    "next_cursor": "3QMnasWSbFE87Hvd"
+  }
+}

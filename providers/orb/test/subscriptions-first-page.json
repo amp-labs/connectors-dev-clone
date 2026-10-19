@@ -1,0 +1,426 @@
+{
+  "data": [
+    {
+      "id": "DQ8hBPBugWDjFCFk",
+      "name": "Omilia",
+      "plan": {
+        "id": "jyzviHdy9qP4XpU6",
+        "name": "Omilia",
+        "prices": [
+          {
+            "id": "DpCgT6mXi2j7BdRy",
+            "item": {
+              "id": "46Jo9zFvaPQrti6J",
+              "name": "Enterprise Platform Fee"
+            },
+            "name": "Enterprise Platform Fee",
+            "cadence": "one_time",
+            "maximum": null,
+            "minimum": null,
+            "currency": "USD",
+            "discount": null,
+            "metadata": {},
+            "created_at": "2026-09-10T00:50:52+00:00",
+            "model_type": "unit",
+            "price_type": "fixed_price",
+            "archived_at": null,
+            "unit_config": {
+              "prorated": true,
+              "unit_amount": "10000.00",
+              "scaling_factor": null
+            },
+            "billing_mode": "in_advance",
+            "license_type": null,
+            "maximum_amount": null,
+            "minimum_amount": null,
+            "billable_metric": null,
+            "conversion_rate": null,
+            "plan_phase_order": null,
+            "credit_allocation": null,
+            "external_price_id": null,
+            "replaces_price_id": null,
+            "fixed_price_quantity": 1.0,
+            "invoice_grouping_key": null,
+            "conversion_rate_config": null,
+            "composite_price_filters": null,
+            "billing_cycle_configuration": {
+              "duration": 12,
+              "duration_unit": "month"
+            },
+            "invoicing_cycle_configuration": null,
+            "dimensional_price_configuration": null
+          }
+        ],
+        "status": "active",
+        "maximum": null,
+        "minimum": null,
+        "product": {
+          "id": "4qokMqW5ptAZWPWj",
+          "name": "Ampersand",
+          "created_at": "2025-09-24T13:47:46+00:00"
+        },
+        "version": 1,
+        "currency": "USD",
+        "discount": null,
+        "metadata": {},
+        "base_plan": null,
+        "net_terms": 30,
+        "created_at": "2026-09-10T00:50:52+00:00",
+        "adjustments": [],
+        "description": "",
+        "plan_phases": [],
+        "base_plan_id": null,
+        "trial_config": {
+          "trial_period": null,
+          "trial_period_unit": "days"
+        },
+        "maximum_amount": null,
+        "minimum_amount": null,
+        "external_plan_id": null,
+        "invoicing_currency": "USD",
+        "default_invoice_memo": null
+      },
+      "status": "active",
+      "customer": {
+        "id": "3QMnasWSbFE87Hvd",
+        "name": "omilia test",
+        "email": "omilia@omilia.test.com",
+        "tax_id": null,
+        "balance": "0.00",
+        "currency": "USD",
+        "metadata": {},
+        "timezone": "Etc/UTC",
+        "hierarchy": {
+          "parent": null,
+          "children": []
+        },
+        "created_at": "2026-09-10T00:51:26+00:00",
+        "portal_url": "https://portal.withorb.com/view?token=IkNSOWRwcG0zdXk1ZkpvMjIi.Lyxi22WJLipAwlFlAVkenHFoepY",
+        "auto_issuance": false,
+        "email_delivery": true,
+        "auto_collection": false,
+        "billing_address": null,
+        "payment_provider": null,
+        "shipping_address": null,
+        "additional_emails": [],
+        "payment_provider_id": null,
+        "external_customer_id": null,
+        "automatic_tax_enabled": true,
+        "payment_configuration": null,
+        "default_payment_method": null,
+        "reporting_configuration": null,
+        "exempt_from_automated_tax": false,
+        "accounting_sync_configuration": {
+          "excluded": false,
+          "accounting_providers": []
+        }
+      },
+      "end_date": "2027-09-02T00:00:00+00:00",
+      "metadata": {},
+      "net_terms": 30,
+      "created_at": "2026-09-10T00:52:00+00:00",
+      "start_date": "2026-09-01T00:00:00+00:00",
+      "trial_info": {
+        "end_date": null
+      },
+      "auto_issuance": false,
+      "auto_collection": true,
+      "price_intervals": [
+        {
+          "id": "WXECueTMhPKt2ear",
+          "price": {
+            "id": "DpCgT6mXi2j7BdRy",
+            "item": {
+              "id": "46Jo9zFvaPQrti6J",
+              "name": "Enterprise Platform Fee"
+            },
+            "name": "Enterprise Platform Fee",
+            "cadence": "one_time",
+            "maximum": null,
+            "minimum": null,
+            "currency": "USD",
+            "discount": null,
+            "metadata": {},
+            "created_at": "2026-09-10T00:50:52+00:00",
+            "model_type": "unit",
+            "price_type": "fixed_price",
+            "archived_at": null,
+            "unit_config": {
+              "prorated": true,
+              "unit_amount": "10000.00",
+              "scaling_factor": null
+            },
+            "billing_mode": "in_advance",
+            "license_type": null,
+            "maximum_amount": null,
+            "minimum_amount": null,
+            "billable_metric": null,
+            "conversion_rate": null,
+            "plan_phase_order": null,
+            "credit_allocation": null,
+            "external_price_id": null,
+            "replaces_price_id": null,
+            "fixed_price_quantity": 1.0,
+            "invoice_grouping_key": null,
+            "conversion_rate_config": null,
+            "composite_price_filters": null,
+            "billing_cycle_configuration": {
+              "duration": 12,
+              "duration_unit": "month"
+            },
+            "invoicing_cycle_configuration": null,
+            "dimensional_price_configuration": null
+          },
+          "filter": null,
+          "end_date": "2027-09-02T00:00:00+00:00",
+          "start_date": "2026-09-01T00:00:00+00:00",
+          "billing_cycle_day": 1,
+          "can_defer_billing": false,
+          "usage_customer_ids": null,
+          "metric_parameter_overrides": null,
+          "fixed_fee_quantity_transitions": [],
+          "current_billing_period_end_date": "2027-09-01T00:00:00+00:00",
+          "current_billing_period_start_date": "2026-09-01T00:00:00+00:00"
+        }
+      ],
+      "redeemed_coupon": null,
+      "billing_cycle_day": 1,
+      "maximum_intervals": [],
+      "minimum_intervals": [],
+      "discount_intervals": [],
+      "invoicing_threshold": null,
+      "adjustment_intervals": [],
+      "default_invoice_memo": "",
+      "active_plan_phase_order": null,
+      "fixed_fee_quantity_schedule": [
+        {
+          "end_date": "2027-09-02T00:00:00+00:00",
+          "price_id": "DpCgT6mXi2j7BdRy",
+          "quantity": 1.0,
+          "start_date": "2026-09-01T00:00:00+00:00"
+        }
+      ],
+      "pending_subscription_change": null,
+      "current_billing_period_end_date": "2027-09-01T00:00:00+00:00",
+      "current_billing_period_start_date": "2026-09-01T00:00:00+00:00",
+      "billing_cycle_anchor_configuration": {
+        "day": 1,
+        "year": null,
+        "month": null
+      }
+    },
+    {
+      "id": "j5CJYf8SjkW8oj3F",
+      "name": "Copy of test plan",
+      "plan": {
+        "id": "G9yWKejEKYFPG9Fc",
+        "name": "Copy of test plan",
+        "prices": [
+          {
+            "id": "SwyET7Y3omF8UKbo",
+            "item": {
+              "id": "46Jo9zFvaPQrti6J",
+              "name": "Enterprise Platform Fee"
+            },
+            "name": "Enterprise Platform Fee",
+            "cadence": "quarterly",
+            "maximum": null,
+            "minimum": null,
+            "currency": "USD",
+            "discount": null,
+            "metadata": {},
+            "created_at": "2026-05-06T13:56:17+00:00",
+            "model_type": "unit",
+            "price_type": "fixed_price",
+            "archived_at": null,
+            "unit_config": {
+              "prorated": true,
+              "unit_amount": "15000.00",
+              "scaling_factor": null
+            },
+            "billing_mode": "in_advance",
+            "license_type": null,
+            "maximum_amount": null,
+            "minimum_amount": null,
+            "billable_metric": null,
+            "conversion_rate": null,
+            "plan_phase_order": null,
+            "credit_allocation": null,
+            "external_price_id": null,
+            "replaces_price_id": null,
+            "fixed_price_quantity": 1.0,
+            "invoice_grouping_key": null,
+            "conversion_rate_config": null,
+            "composite_price_filters": null,
+            "billing_cycle_configuration": {
+              "duration": 3,
+              "duration_unit": "month"
+            },
+            "invoicing_cycle_configuration": null,
+            "dimensional_price_configuration": null
+          }
+        ],
+        "status": "active",
+        "maximum": null,
+        "minimum": null,
+        "product": {
+          "id": "4qokMqW5ptAZWPWj",
+          "name": "Ampersand",
+          "created_at": "2025-09-24T13:47:46+00:00"
+        },
+        "version": 1,
+        "currency": "USD",
+        "discount": null,
+        "metadata": {},
+        "base_plan": null,
+        "net_terms": 0,
+        "created_at": "2026-05-06T13:56:17+00:00",
+        "adjustments": [],
+        "description": "",
+        "plan_phases": [],
+        "base_plan_id": null,
+        "trial_config": {
+          "trial_period": null,
+          "trial_period_unit": "days"
+        },
+        "maximum_amount": null,
+        "minimum_amount": null,
+        "external_plan_id": null,
+        "invoicing_currency": "USD",
+        "default_invoice_memo": null
+      },
+      "status": "active",
+      "customer": {
+        "id": "MaxgdpQuzNwD9xvq",
+        "name": "andy",
+        "email": "andy@andy.com",
+        "tax_id": null,
+        "balance": "58548.39",
+        "currency": "USD",
+        "metadata": {},
+        "timezone": "Etc/UTC",
+        "hierarchy": {
+          "parent": null,
+          "children": []
+        },
+        "created_at": "2026-05-07T20:07:45+00:00",
+        "portal_url": "https://portal.withorb.com/view?token=IldUM3BGdEd4NXpSTU13WGoi.75dlOQyFa-4APjRia0Mm3k8BESA",
+        "auto_issuance": false,
+        "email_delivery": true,
+        "auto_collection": false,
+        "billing_address": null,
+        "payment_provider": null,
+        "shipping_address": null,
+        "additional_emails": [],
+        "payment_provider_id": null,
+        "external_customer_id": null,
+        "automatic_tax_enabled": true,
+        "payment_configuration": null,
+        "default_payment_method": null,
+        "reporting_configuration": null,
+        "exempt_from_automated_tax": false,
+        "accounting_sync_configuration": {
+          "excluded": false,
+          "accounting_providers": []
+        }
+      },
+      "end_date": null,
+      "metadata": {},
+      "net_terms": 0,
+      "created_at": "2026-05-07T20:08:49+00:00",
+      "start_date": "2026-03-05T00:00:00+00:00",
+      "trial_info": {
+        "end_date": null
+      },
+      "auto_issuance": false,
+      "auto_collection": true,
+      "price_intervals": [
+        {
+          "id": "Pab2dFp7bhumYYQV",
+          "price": {
+            "id": "SwyET7Y3omF8UKbo",
+            "item": {
+              "id": "46Jo9zFvaPQrti6J",
+              "name": "Enterprise Platform Fee"
+            },
+            "name": "Enterprise Platform Fee",
+            "cadence": "quarterly",
+            "maximum": null,
+            "minimum": null,
+            "currency": "USD",
+            "discount": null,
+            "metadata": {},
+            "created_at": "2026-05-06T13:56:17+00:00",
+            "model_type": "unit",
+            "price_type": "fixed_price",
+            "archived_at": null,
+            "unit_config": {
+              "prorated": true,
+              "unit_amount": "15000.00",
+              "scaling_factor": null
+            },
+            "billing_mode": "in_advance",
+            "license_type": null,
+            "maximum_amount": null,
+            "minimum_amount": null,
+            "billable_metric": null,
+            "conversion_rate": null,
+            "plan_phase_order": null,
+            "credit_allocation": null,
+            "external_price_id": null,
+            "replaces_price_id": null,
+            "fixed_price_quantity": 1.0,
+            "invoice_grouping_key": null,
+            "conversion_rate_config": null,
+            "composite_price_filters": null,
+            "billing_cycle_configuration": {
+              "duration": 3,
+              "duration_unit": "month"
+            },
+            "invoicing_cycle_configuration": null,
+            "dimensional_price_configuration": null
+          },
+          "filter": null,
+          "end_date": null,
+          "start_date": "2026-03-05T00:00:00+00:00",
+          "billing_cycle_day": 5,
+          "can_defer_billing": false,
+          "usage_customer_ids": null,
+          "metric_parameter_overrides": null,
+          "fixed_fee_quantity_transitions": [],
+          "current_billing_period_end_date": "2026-12-05T00:00:00+00:00",
+          "current_billing_period_start_date": "2026-09-05T00:00:00+00:00"
+        }
+      ],
+      "redeemed_coupon": null,
+      "billing_cycle_day": 5,
+      "maximum_intervals": [],
+      "minimum_intervals": [],
+      "discount_intervals": [],
+      "invoicing_threshold": null,
+      "adjustment_intervals": [],
+      "default_invoice_memo": "",
+      "active_plan_phase_order": null,
+      "fixed_fee_quantity_schedule": [
+        {
+          "end_date": null,
+          "price_id": "SwyET7Y3omF8UKbo",
+          "quantity": 1.0,
+          "start_date": "2026-03-05T00:00:00+00:00"
+        }
+      ],
+      "pending_subscription_change": null,
+      "current_billing_period_end_date": "2026-12-05T00:00:00+00:00",
+      "current_billing_period_start_date": "2026-09-05T00:00:00+00:00",
+      "billing_cycle_anchor_configuration": {
+        "day": 5,
+        "year": 2026,
+        "month": 3
+      }
+    }
+  ],
+  "pagination_metadata": {
+    "has_more": true,
+    "next_cursor": "QbRDHD2Nogt74Wgj"
+  }
+}
