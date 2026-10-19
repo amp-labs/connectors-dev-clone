@@ -1,0 +1,119 @@
+{
+  "links": {
+    "next": null
+  },
+  "data": [
+    {
+      "id": "https://getclarify.ai/schemas/core/collectionOfIds",
+      "type": "schema",
+      "attributes": {
+        "$id": "https://getclarify.ai/schemas/core/collectionOfIds",
+        "type": "object"
+      }
+    },
+    {
+      "id": "https://getclarify.ai/schemas/entities/person",
+      "type": "schema",
+      "attributes": {
+        "$schema": "https://json-schema.org/draft/2020-12/clarify",
+        "$id": "https://getclarify.ai/schemas/entities/person",
+        "title": "Person",
+        "type": "object",
+        "xClarifyNamespace": "objects",
+        "xClarifyLabel": {
+          "singular": "Person",
+          "plural": "People"
+        },
+        "properties": {
+          "job_title": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "title": "Job Title"
+          },
+          "lifecycle_stage": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "title": "Lifecycle Stage",
+            "enum": [
+              "Lead",
+              "Customer",
+              null
+            ]
+          },
+          "company_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "title": "Company",
+            "xClarifyRelationship": {
+              "kind": "many-to-one",
+              "entity": "company",
+              "field": "people"
+            }
+          },
+          "deals": {
+            "oneOf": [
+              {
+                "$ref": "https://getclarify.ai/schemas/core/collectionOfIds"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deals",
+            "xClarifyRelationship": {
+              "kind": "many-to-many",
+              "entity": "deal",
+              "field": "people"
+            }
+          },
+          "birthday": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date",
+            "title": "Birthday"
+          },
+          "score": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "title": "Score"
+          },
+          "do_not_contact": {
+            "type": "boolean",
+            "title": "Do Not Contact"
+          },
+          "_updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Last Updated",
+            "readOnly": true
+          }
+        }
+      }
+    },
+    {
+      "id": "https://getclarify.ai/schemas/entities/c_project",
+      "type": "schema",
+      "attributes": {
+        "$id": "https://getclarify.ai/schemas/entities/c_project",
+        "title": "Project",
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          }
+        }
+      }
+    }
+  ]
+}
