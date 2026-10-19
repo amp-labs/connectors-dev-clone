@@ -1,6 +1,6 @@
 {
   "links": {
-    "next": "https://api.clarify.ai/v1/workspaces/acme/objects/person/resources?page%5Blimit%5D=2&page%5Boffset%5D=2",
+    "next": "http://api.clarify.ai/v1/workspaces/acme/objects/person/resources?page%5Boffset%5D=2&page%5Blimit%5D=2",
     "prev": null
   },
   "meta": {

@@ -24,7 +24,10 @@ func TestRead(t *testing.T) { //nolint:funlen,maintidx
 	responsePersonLastPage := testutils.DataFromFile(t, "person-last-page.json")
 	responseUsers := testutils.DataFromFile(t, "users.json")
 
-	personNextPage := "https://api.clarify.ai/v1/workspaces/acme/objects/person/resources?page%5Blimit%5D=2&page%5Boffset%5D=2"
+	// links.next comes back as http://api.clarify.ai/...; the next page keeps its path and query
+	// on the request's scheme and host.
+	personNextPage := common.NextPageToken(testconn.URLTestServer +
+		"/v1/workspaces/acme/objects/person/resources?page%5Boffset%5D=2&page%5Blimit%5D=2")
 
 	// Operator names carry spaces, which must reach Clarify as %20.
 	spacesAsPercent20 := mockcond.CustomCondition(func(_ http.ResponseWriter, r *http.Request) bool {
@@ -120,7 +123,7 @@ func TestRead(t *testing.T) { //nolint:funlen,maintidx
 						"job_title": nil,
 					},
 				}},
-				NextPage: common.NextPageToken(personNextPage),
+				NextPage: personNextPage,
 				Done:     false,
 			},
 		},
@@ -129,8 +132,7 @@ func TestRead(t *testing.T) { //nolint:funlen,maintidx
 			Input: common.ReadParams{
 				ObjectName: "person",
 				Fields:     connectors.Fields("job_title"),
-				NextPage: testconn.URLTestServer +
-					"/v1/workspaces/acme/objects/person/resources?page%5Blimit%5D=2&page%5Boffset%5D=2",
+				NextPage:   personNextPage,
 			},
 			Server: mockserver.Conditional{
 				Setup: mockserver.ContentJSON(),

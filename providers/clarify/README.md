@@ -40,8 +40,10 @@ as Clarify returns them: collections stay `{"items": [...]}` and person names st
 ## Pagination
 
 `page[limit]` (max 500, the default here) and `links.next`, which is `null` on the last page.
-`links.next` is fetched verbatim; it carries the page and filter parameters
-([Pagination](https://developer.clarify.ai/docs/api-basics/pagination)).
+`links.next` carries the page and filter parameters
+([Pagination](https://developer.clarify.ai/docs/api-basics/pagination)). The live API returns it
+as `http://api.clarify.ai/...` (the docs show `https://`) and port 80 does not answer, so the
+connector keeps its path and query and puts them on the request's scheme and host.
 
 ## Incremental read
 

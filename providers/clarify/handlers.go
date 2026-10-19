@@ -33,8 +33,8 @@ var queryEncodingExceptions = map[string]string{"+": "%20"} // nolint:gochecknog
 
 // buildReadRequest lists records. Built-in objects use the resources endpoint, which filters
 // Since/Until on `_updated_at`; users use the users endpoint, which takes no filter and is filtered
-// in parseReadResponse. Later pages are the provider's `links.next` URL, fetched verbatim: it
-// already carries the page and filter parameters.
+// in parseReadResponse. Later pages are the provider's `links.next` URL (see makeNextRecordsURL):
+// it already carries the page and filter parameters.
 // https://developer.clarify.ai/docs/api-reference/resources/getResources
 // https://developer.clarify.ai/docs/api-reference/users/getUsers
 func (c *Connector) buildReadRequest(ctx context.Context, params common.ReadParams) (*http.Request, error) {
@@ -84,7 +84,8 @@ func (c *Connector) parseReadResponse(
 	request *http.Request,
 	response *common.JSONHTTPResponse,
 ) (*common.ReadResult, error) {
-	filter := readhelper.MakeIdentityFilterFunc(getNextRecordsURL)
+	nextPage := makeNextRecordsURL(request.URL)
+	filter := readhelper.MakeIdentityFilterFunc(nextPage)
 
 	if !entityObjects.Has(params.ObjectName) {
 		// Users come back ordered by `_id`, so every page is read and filtered.
@@ -92,7 +93,7 @@ func (c *Connector) parseReadResponse(
 			readhelper.Unordered,
 			readhelper.NewTimeBoundary(readhelper.ExcludeSince()),
 			[]string{"attributes"}, updatedAtField, time.RFC3339,
-			getNextRecordsURL,
+			nextPage,
 		)
 	}
 

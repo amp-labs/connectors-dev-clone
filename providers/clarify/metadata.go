@@ -328,8 +328,10 @@ func userFields() common.FieldsMetadata {
 		"email":           userField("Email", common.ValueTypeString, "string"),
 		"profile_picture": userField("Profile Picture", common.ValueTypeString, "string"),
 		"last_active_at":  userField("Last Active At", common.ValueTypeDateTime, "date-time"),
-		"_created_at":     recordSystemFields["_created_at"],
-		"_updated_at":     recordSystemFields["_updated_at"],
+		// Returned by the live API, not in the docs' example.
+		"is_service_account": userField("Is Service Account", common.ValueTypeBoolean, "boolean"),
+		"_created_at":        recordSystemFields["_created_at"],
+		"_updated_at":        recordSystemFields["_updated_at"],
 	}
 }
 
