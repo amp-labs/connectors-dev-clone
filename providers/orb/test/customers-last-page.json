@@ -1,0 +1,19 @@
+{
+  "data": [
+    {
+      "metadata": {},
+      "id": "Kq8Vt2ZbLm4Rx9Nc",
+      "external_customer_id": "initech",
+      "name": "Initech",
+      "email": "finance@initech.example",
+      "timezone": "Etc/UTC",
+      "created_at": "2026-08-01T09:00:00+00:00",
+      "balance": "0.00",
+      "currency": "USD"
+    }
+  ],
+  "pagination_metadata": {
+    "has_more": false,
+    "next_cursor": null
+  }
+}

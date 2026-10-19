@@ -1,0 +1,6 @@
+{
+  "type": "https://docs.withorb.com/reference/error-responses#401-authentication-error",
+  "status": 401,
+  "title": "Authentication failure",
+  "detail": "Your request did not provide a valid or well-formatted API key."
+}

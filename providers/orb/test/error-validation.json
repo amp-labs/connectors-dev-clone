@@ -1,0 +1,7 @@
+{
+  "type": "https://docs.withorb.com/reference/error-responses#400-request-validation-errors",
+  "status": 400,
+  "title": "Request validation error",
+  "detail": "Invalid query parameters.",
+  "validation_errors": ["limit: ensure this value is less than or equal to 100"]
+}
