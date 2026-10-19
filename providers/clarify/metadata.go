@@ -29,20 +29,27 @@ func (c *Connector) ListObjectMetadata(
 		return nil, common.ErrMissingObjects
 	}
 
+	result := common.NewListObjectMetadataResult()
+	requested := make([]string, 0, len(objectNames))
+
+	for _, objectName := range datautils.NewSetFromList(objectNames).List() {
+		if slices.Contains(supportedObjects, objectName) {
+			requested = append(requested, objectName)
+		} else {
+			result.AppendError(objectName, common.ErrObjectNotSupported)
+		}
+	}
+
+	if len(requested) == 0 {
+		return result, nil
+	}
+
 	schemas, err := c.fetchSchemas(ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	result := common.NewListObjectMetadataResult()
-
-	for _, objectName := range datautils.NewSetFromList(objectNames).List() {
-		if !slices.Contains(supportedObjects, objectName) {
-			result.AppendError(objectName, common.ErrObjectNotSupported)
-
-			continue
-		}
-
+	for _, objectName := range requested {
 		schema, ok := schemas[objectName]
 		if !ok {
 			result.AppendError(objectName,
@@ -71,41 +78,43 @@ func (c *Connector) fetchSchemas(ctx context.Context) (map[string]entitySchema, 
 
 	schemas := make(map[string]entitySchema)
 	nextPage := makeNextPageFunc(requestURL)
-	next := requestURL.String()
 
-	for next != "" {
-		response, err := c.JSONHTTPClient().Get(ctx, next)
-		if err != nil {
-			return nil, err
-		}
-
-		page, err := common.UnmarshalJSON[schemasResponse](response)
-		if err != nil {
-			return nil, err
-		}
-
-		if page == nil {
-			return nil, common.ErrEmptyJSONHTTPResponse
-		}
-
-		for _, resource := range page.Data {
-			if _, objectName, ok := strings.Cut(resource.ID, entitySchemaMarker); ok {
-				schemas[objectName] = resource.Attributes
-			}
-		}
-
-		body, ok := response.Body()
-		if !ok {
-			return nil, common.ErrEmptyJSONHTTPResponse
-		}
-
-		next, err = nextPage(body)
+	for next := requestURL.String(); next != ""; {
+		next, err = c.fetchSchemasPage(ctx, next, nextPage, schemas)
 		if err != nil {
 			return nil, err
 		}
 	}
 
 	return schemas, nil
+}
+
+// fetchSchemasPage adds the object schemas of one page to schemas and returns the next page URL.
+func (c *Connector) fetchSchemasPage(
+	ctx context.Context, pageURL string, nextPage common.NextPageFunc, schemas map[string]entitySchema,
+) (string, error) {
+	response, err := c.JSONHTTPClient().Get(ctx, pageURL)
+	if err != nil {
+		return "", err
+	}
+
+	page, err := common.UnmarshalJSON[schemasResponse](response)
+	if err != nil {
+		return "", err
+	}
+
+	body, ok := response.Body()
+	if page == nil || !ok {
+		return "", common.ErrEmptyJSONHTTPResponse
+	}
+
+	for _, resource := range page.Data {
+		if _, objectName, ok := strings.Cut(resource.ID, entitySchemaMarker); ok {
+			schemas[objectName] = resource.Attributes
+		}
+	}
+
+	return nextPage(body)
 }
 
 type schemasResponse struct {
@@ -276,6 +285,14 @@ func (p propertySchema) valueType() (common.ValueType, []common.FieldValue) {
 		return common.ValueTypeDate, nil
 	}
 
+	if valueType, values := p.selectValueType(); values != nil {
+		return valueType, values
+	}
+
+	return p.primitiveValueType(), nil
+}
+
+func (p propertySchema) selectValueType() (common.ValueType, []common.FieldValue) {
 	if values := enumValues(p.Enum); len(values) != 0 {
 		return common.ValueTypeSingleSelect, values
 	}
@@ -286,17 +303,21 @@ func (p propertySchema) valueType() (common.ValueType, []common.FieldValue) {
 		}
 	}
 
+	return common.ValueTypeOther, nil
+}
+
+func (p propertySchema) primitiveValueType() common.ValueType {
 	switch p.Type.primary() {
 	case "string":
-		return common.ValueTypeString, nil
+		return common.ValueTypeString
 	case "integer":
-		return common.ValueTypeInt, nil
+		return common.ValueTypeInt
 	case "number":
-		return common.ValueTypeFloat, nil
+		return common.ValueTypeFloat
 	case "boolean":
-		return common.ValueTypeBoolean, nil
+		return common.ValueTypeBoolean
 	default:
-		return common.ValueTypeOther, nil
+		return common.ValueTypeOther
 	}
 }
 
