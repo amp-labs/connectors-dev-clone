@@ -49,6 +49,13 @@ func (c *Connector) readURL(params common.ReadParams) (*urlbuilder.URL, error) {
 
 	readURL.WithQueryParam("limit", strconv.Itoa(min(readhelper.PageSizeWithDefault(params, maxPageSize), maxPageSize)))
 
+	// Coupons list only active coupons unless asked. Archived ones are read too, as items are,
+	// since subscriptions and invoices still reference them; `archived_at` tells them apart.
+	// https://docs.withorb.com/api-reference/coupon/list-coupons
+	if params.ObjectName == objectNameCoupons {
+		readURL.WithQueryParam("show_archived", "true")
+	}
+
 	if objectsWithCreatedAtFilter.Has(params.ObjectName) {
 		if !params.Since.IsZero() {
 			readURL.WithQueryParam(createdSinceParam, datautils.Time.FormatRFC3339inUTCWithMilliseconds(params.Since))

@@ -21,6 +21,7 @@ func TestRead(t *testing.T) { //nolint:funlen,maintidx
 	responseCustomersFirstPage := testutils.DataFromFile(t, "customers-first-page.json")
 	responseCustomersLastPage := testutils.DataFromFile(t, "customers-last-page.json")
 	responseInvoices := testutils.DataFromFile(t, "invoices.json")
+	responseCoupons := testutils.DataFromFile(t, "coupons.json")
 
 	since := time.Date(2026, 9, 1, 0, 0, 0, 0, time.UTC)
 	until := time.Date(2026, 9, 30, 12, 30, 15, 250_000_000, time.UTC)
@@ -168,6 +169,29 @@ func TestRead(t *testing.T) { //nolint:funlen,maintidx
 					"created_at%5Blte%5D=2026-09-30T12%3A30%3A15.250Z&" +
 					"cursor=Y3Vyc29yLTI%3D&limit=100",
 				Done: false,
+			},
+		},
+		{
+			Name:  "Coupons include archived ones",
+			Input: common.ReadParams{ObjectName: "coupons", Fields: connectors.Fields("redemption_code")},
+			Server: mockserver.Conditional{
+				Setup: mockserver.ContentJSON(),
+				If: mockcond.And{
+					mockcond.Path("/v1/coupons"),
+					mockcond.QueryParam("show_archived", "true"),
+				},
+				Then: mockserver.Response(http.StatusOK, responseCoupons),
+			}.Server(),
+			Comparator: testconn.ComparatorSubsetRead,
+			Expected: &common.ReadResult{
+				Rows: 1,
+				Data: []common.ReadResultRow{{
+					Id:     "7iz2yanVjQoBZhyH",
+					Fields: map[string]any{"redemption_code": "HALFOFF"},
+					Raw:    map[string]any{"archived_at": "2026-09-15T10:00:00+00:00"},
+				}},
+				NextPage: "",
+				Done:     true,
 			},
 		},
 		{

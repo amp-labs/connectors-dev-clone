@@ -28,6 +28,9 @@ subscription (status, plan, email...) are not picked up until a full read.
 Invoices filter only on `invoice_date` / `due_date` (not creation or modification), and items
 and coupons have no time filter, so `Since`/`Until` are ignored for them.
 
+Coupons are read with `show_archived=true`: by default Orb lists only active coupons, while
+items come back archived or not. `archived_at` tells archived records apart on both.
+
 The subscriptions `created_at` filter is not on any page of the API reference we had, but
 was confirmed live: a `created_at[gte]` in 2100 returns no records, and a `(gt, lte]` window
 around a known record returns it. `created_at` is stored below the second (the API prints whole
