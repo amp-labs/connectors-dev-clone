@@ -1,0 +1,23 @@
+{
+  "data": [
+    {
+      "id": "DQ8hBPBugWDjFCFk",
+      "name": "Omilia",
+      "status": "active",
+      "created_at": "2026-09-10T00:52:00+00:00",
+      "start_date": "2026-09-01T00:00:00+00:00",
+      "end_date": "2027-09-02T00:00:00+00:00",
+      "net_terms": 30,
+      "auto_collection": true,
+      "metadata": {},
+      "customer": {"id": "3QMnasWSbFE87Hvd"},
+      "plan": {"id": "jyzviHdy9qP4XpU6"},
+      "adjustment_intervals": [],
+      "pending_subscription_change": null
+    }
+  ],
+  "pagination_metadata": {
+    "has_more": true,
+    "next_cursor": "c3ViLTI="
+  }
+}
