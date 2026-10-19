@@ -12,8 +12,8 @@ import (
 
 // ListObjectMetadata starts from the catalog generated from the OpenAPI spec, which holds the record
 // properties (id, createdAt, updatedAt...) of every object and the fixed fields of members.
-// Accounts, contacts and opportunities have workspace-specific system and custom fields, which are
-// described live by GET /v1/{object}/definitions.
+// Accounts, contacts, opportunities, notes and tasks have workspace-specific system and custom
+// fields, which are described live by GET /v1/{object}/definitions.
 // https://docs.lightfield.app/using-the-api/fields-and-relationships#discovering-definitions
 func (c *Connector) ListObjectMetadata(
 	ctx context.Context, objectNames []string,

@@ -1,0 +1,22 @@
+{
+  "data": [
+    {
+      "id": "tsk_1",
+      "createdAt": "2026-10-01T09:00:00.000Z",
+      "updatedAt": "2026-10-12T22:07:48.174Z",
+      "httpLink": "https://crm.lightfield.app/crm/tasks/tsk_1",
+      "externalId": null,
+      "fields": {
+        "$title": {"value": "Send renewal proposal", "valueType": "TEXT"},
+        "$status": {"value": "TODO", "valueType": "SINGLE_SELECT"},
+        "$dueAt": {"value": null, "valueType": "DATETIME"}
+      },
+      "relationships": {
+        "$assignedTo": {"cardinality": "HAS_ONE", "objectType": "$member", "values": ["mem_1"]},
+        "$account": {"cardinality": "HAS_MANY", "objectType": "$account", "values": ["acc_1"]}
+      }
+    }
+  ],
+  "object": "list",
+  "totalCount": 1
+}

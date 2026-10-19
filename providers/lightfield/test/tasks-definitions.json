@@ -1,0 +1,40 @@
+{
+  "objectType": "$task",
+  "fieldDefinitions": {
+    "$title": {"label": "Title", "valueType": "TEXT", "description": null, "typeConfiguration": {}},
+    "$status": {
+      "label": "Status",
+      "valueType": "SINGLE_SELECT",
+      "description": null,
+      "typeConfiguration": {
+        "options": [
+          {"id": "TODO", "label": "TODO"},
+          {"id": "IN_PROGRESS", "label": "IN_PROGRESS"},
+          {"id": "COMPLETE", "label": "COMPLETE"},
+          {"id": "CANCELLED", "label": "CANCELLED"}
+        ]
+      }
+    },
+    "$completedAt": {
+      "label": "Completed at",
+      "readOnly": true,
+      "valueType": "DATETIME",
+      "description": null,
+      "typeConfiguration": {}
+    }
+  },
+  "relationshipDefinitions": {
+    "$assignedTo": {
+      "label": "Assigned to",
+      "objectType": "$member",
+      "cardinality": "HAS_ONE",
+      "description": "The member this task is assigned to"
+    },
+    "$account": {
+      "label": "Accounts",
+      "objectType": "$account",
+      "cardinality": "HAS_MANY",
+      "description": "Accounts associated with this task"
+    }
+  }
+}

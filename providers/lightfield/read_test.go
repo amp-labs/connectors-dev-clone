@@ -21,6 +21,7 @@ func TestRead(t *testing.T) { //nolint:funlen,maintidx
 	responseAccountsLastPage := testutils.DataFromFile(t, "accounts-last-page.json")
 	responseMembers := testutils.DataFromFile(t, "members.json")
 	responseAccountsKeyClash := testutils.DataFromFile(t, "accounts-key-clash.json")
+	responseTasks := testutils.DataFromFile(t, "tasks.json")
 
 	versionHeader := http.Header{"Lightfield-Version": []string{"2026-03-01"}}
 
@@ -39,7 +40,7 @@ func TestRead(t *testing.T) { //nolint:funlen,maintidx
 		},
 		{
 			Name:         "Unknown object is not supported",
-			Input:        common.ReadParams{ObjectName: "notes", Fields: connectors.Fields("id")},
+			Input:        common.ReadParams{ObjectName: "meetings", Fields: connectors.Fields("id")},
 			Server:       mockserver.Dummy(),
 			ExpectedErrs: []error{common.ErrOperationNotSupportedForObject},
 		},
@@ -208,6 +209,42 @@ func TestRead(t *testing.T) { //nolint:funlen,maintidx
 			}.Server(),
 			Comparator: testconn.ComparatorPagination,
 			Expected:   &common.ReadResult{Rows: 1, NextPage: "", Done: true},
+		},
+		{
+			Name: "Incremental read of tasks sends updatedAt filters and flattens fields and relationships",
+			Input: common.ReadParams{
+				ObjectName: "tasks",
+				Fields:     connectors.Fields("$title", "$status", "$assignedTo", "$account"),
+				Since:      time.Date(2026, 10, 1, 0, 0, 0, 0, time.UTC),
+				Until:      time.Date(2026, 10, 13, 0, 0, 0, 0, time.UTC),
+			},
+			Server: mockserver.Conditional{
+				Setup: mockserver.ContentJSON(),
+				If: mockcond.And{
+					mockcond.Path("/v1/tasks"),
+					mockcond.Header(versionHeader),
+					mockcond.QueryParam("limit", "25"),
+					mockcond.QueryParam("$updatedAt[greaterThan]", "2026-10-01T00:00:00.000Z"),
+					mockcond.QueryParam("$updatedAt[lessThanOrEqual]", "2026-10-13T00:00:00.000Z"),
+				},
+				Then: mockserver.Response(http.StatusOK, responseTasks),
+			}.Server(),
+			Comparator: testconn.ComparatorSubsetRead,
+			Expected: &common.ReadResult{
+				Rows: 1,
+				Data: []common.ReadResultRow{{
+					Id: "tsk_1",
+					Fields: map[string]any{
+						"$title":      "Send renewal proposal",
+						"$status":     "TODO",
+						"$assignedto": []any{"mem_1"},
+						"$account":    []any{"acc_1"},
+					},
+					Raw: map[string]any{"id": "tsk_1"},
+				}},
+				NextPage: "",
+				Done:     true,
+			},
 		},
 		{
 			Name:  "Record properties win over custom fields of the same name, and fields over relationships",

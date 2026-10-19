@@ -17,6 +17,7 @@ func TestListObjectMetadata(t *testing.T) { // nolint:funlen
 
 	responseOpportunityDefinitions := testutils.DataFromFile(t, "opportunities-definitions.json")
 	responseForbidden := testutils.DataFromFile(t, "error-forbidden.json")
+	responseTaskDefinitions := testutils.DataFromFile(t, "tasks-definitions.json")
 
 	tests := []testconn.TestCaseListObjectMetadata{
 		{
@@ -27,13 +28,13 @@ func TestListObjectMetadata(t *testing.T) { // nolint:funlen
 		},
 		{
 			Name:       "Unknown object is reported per object",
-			Input:      []string{"notes"},
+			Input:      []string{"meetings"},
 			Server:     mockserver.Dummy(),
 			Comparator: testconn.ComparatorSubsetMetadata,
 			Expected: &common.ListObjectMetadataResult{
 				Result: map[string]common.ObjectMetadata{},
 				Errors: map[string]error{
-					"notes": mockutils.ExpectedSubsetErrors{common.ErrObjectNotSupported},
+					"meetings": mockutils.ExpectedSubsetErrors{common.ErrObjectNotSupported},
 				},
 			},
 		},
@@ -155,6 +156,66 @@ func TestListObjectMetadata(t *testing.T) { // nolint:funlen
 								ProviderType: "HAS_MANY",
 								IsCustom:     new(true),
 								ReferenceTo:  []string{"contacts"},
+							},
+						},
+					},
+				},
+				Errors: map[string]error{},
+			},
+		},
+		{
+			Name:  "Tasks are described by the definitions endpoint",
+			Input: []string{"tasks"},
+			Server: mockserver.Conditional{
+				Setup: mockserver.ContentJSON(),
+				If: mockcond.And{
+					mockcond.MethodGET(),
+					mockcond.Path("/v1/tasks/definitions"),
+					mockcond.Header(http.Header{"Lightfield-Version": []string{"2026-03-01"}}),
+				},
+				Then: mockserver.Response(http.StatusOK, responseTaskDefinitions),
+			}.Server(),
+			Comparator: testconn.ComparatorSubsetMetadata,
+			Expected: &common.ListObjectMetadataResult{
+				Result: map[string]common.ObjectMetadata{
+					"tasks": {
+						DisplayName: "Tasks",
+						Fields: map[string]common.FieldMetadata{
+							"updatedAt": {
+								DisplayName: "Updated At",
+								ValueType:   common.ValueTypeDateTime,
+							},
+							"$title": {
+								DisplayName:  "Title",
+								ValueType:    common.ValueTypeString,
+								ProviderType: "TEXT",
+							},
+							"$status": {
+								DisplayName:  "Status",
+								ValueType:    common.ValueTypeSingleSelect,
+								ProviderType: "SINGLE_SELECT",
+								Values: []common.FieldValue{
+									{Value: "TODO", DisplayValue: "TODO"},
+									{Value: "IN_PROGRESS", DisplayValue: "IN_PROGRESS"},
+									{Value: "COMPLETE", DisplayValue: "COMPLETE"},
+									{Value: "CANCELLED", DisplayValue: "CANCELLED"},
+								},
+							},
+							"$completedAt": {
+								DisplayName:  "Completed at",
+								ValueType:    common.ValueTypeDateTime,
+								ProviderType: "DATETIME",
+								ReadOnly:     new(true),
+							},
+							"$assignedTo": {
+								DisplayName:  "Assigned to",
+								ValueType:    common.ValueTypeReference,
+								ProviderType: "HAS_ONE",
+							},
+							"$account": {
+								DisplayName:  "Accounts",
+								ValueType:    common.ValueTypeOther,
+								ProviderType: "HAS_MANY",
 							},
 						},
 					},
