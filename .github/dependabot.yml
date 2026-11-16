@@ -8,3 +8,7 @@ updates:
     # which helps avoid taking a version that was just published and may still be unstable or risky
     cooldown:
       default-days: 7
+    groups:
+      go-minor-and-patch:
+        patterns: ["*"]
+        update-types: [minor, patch]
